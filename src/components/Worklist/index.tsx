@@ -8,12 +8,13 @@ import TableRow from "@material-ui/core/TableRow";
 import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import {useDispatch, useSelector} from "react-redux";
-import {getCurrentTasks, getCurrentTasksPaginate} from "../Selectors";
+import {getCurrentTasksPaginated} from "../Selectors";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {RootState} from "../../store";
 import {setWorklistInitial} from "../../store/worklist";
 import { Pagination } from "../../components/Pagination";
 import Container from "@material-ui/core/Container";
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -26,13 +27,12 @@ const useStyles = makeStyles((theme) =>
     })
 );
 
-
 export const WorkList = () => {
 
     const classes = useStyles();
     const isLoading = useSelector((state: RootState) => state.wl.isLoading);
     const isError = useSelector((state: RootState) => state.wl.isError);
-    const worklist = useSelector(getCurrentTasksPaginate);
+    const worklist = useSelector(getCurrentTasksPaginated);
 
     const dispatch = useDispatch();
     React.useEffect(() => {

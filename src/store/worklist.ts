@@ -27,7 +27,7 @@ const workListInitialState: IWorklistState = {
     isError: false,
     currentPage: 1,
     exceptionText: "",
-    recordsOnPage: 1
+    recordsOnPage: 3
 };
 
 const workListSlice = createSlice({
