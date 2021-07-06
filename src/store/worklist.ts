@@ -18,6 +18,7 @@ interface IWorklistState {
     isError: boolean;
     currentPage: number;
     exceptionText: string;
+    recordsOnPage: number;
 }
 
 const workListInitialState: IWorklistState = {
@@ -26,6 +27,7 @@ const workListInitialState: IWorklistState = {
     isError: false,
     currentPage: 1,
     exceptionText: "",
+    recordsOnPage: 1
 };
 
 const workListSlice = createSlice({

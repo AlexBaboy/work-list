@@ -8,10 +8,11 @@ import TableRow from "@material-ui/core/TableRow";
 import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import {useDispatch, useSelector} from "react-redux";
-import {getCurrentTasks} from "../Selectors";
+import {getCurrentTasks, getCurrentTasksPaginate} from "../Selectors";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import {RootState} from "../../store";
 import {setWorklistInitial} from "../../store/worklist";
-import Grid from "@material-ui/core/Grid";
+import { Pagination } from "../../components/Pagination";
 import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles((theme) =>
@@ -31,12 +32,20 @@ export const WorkList = () => {
     const classes = useStyles();
     const isLoading = useSelector((state: RootState) => state.wl.isLoading);
     const isError = useSelector((state: RootState) => state.wl.isError);
-    const worklist = useSelector(getCurrentTasks);
+    const worklist = useSelector(getCurrentTasksPaginate);
 
     const dispatch = useDispatch();
     React.useEffect(() => {
         dispatch(setWorklistInitial());
     }, []);
+
+    if (isLoading) {
+        return (
+            <CircularProgress variant="determinate"></CircularProgress>
+        );
+    }
+    if (isError)
+        return <div data-testid="contacts-error">Error...</div>;
 
     return (
         <Container className={classes.root}>
@@ -77,6 +86,7 @@ export const WorkList = () => {
                 </TableBody>
             </Table>
         </TableContainer>
+        <Pagination />
         </Container>
     );
 };
