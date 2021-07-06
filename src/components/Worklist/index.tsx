@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) =>
         },
         table: {
             minWidth: 650,
-        },
+        }
     })
 );
 
@@ -42,17 +42,21 @@ export const WorkList = () => {
         <Container className={classes.root}>
         <TableContainer>
             <Table className={classes.table} aria-label="contacts table">
-                <TableHead>
+                <TableHead className="table-head">
                     <TableRow>
-                        <TableCell>Имя пользователя</TableCell>
-                        <TableCell>Email</TableCell>
-                        <TableCell>Текст задачи</TableCell>
-                        <TableCell>Статус</TableCell>
+                        <TableCell><b>ID</b></TableCell>
+                        <TableCell><b>Имя пользователя</b></TableCell>
+                        <TableCell><b>Email</b></TableCell>
+                        <TableCell><b>Текст задачи</b></TableCell>
+                        <TableCell><b>Статус</b></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {worklist.map((todo) => (
                         <TableRow key={todo.id}>
+                            <TableCell>
+                                {todo.id}
+                            </TableCell>
                             <TableCell component="th" scope="row">
                                 <Avatar
                                     alt={todo.username}
