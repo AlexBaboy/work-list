@@ -8,7 +8,7 @@ export const setWorklistInitial = createAsyncThunk(
         //const response = await axios.get(process.env.REACT_APP_BASE_URL);
         const response = await axios.get("https://uxcandy.com/~shapoval/test-task-backend/v2/?developer=Alex");
         console.log(response?.data?.message?.tasks)
-        return response?.data?.message?.tasks;
+        return response?.data?.message;
     }
 );
 
@@ -20,6 +20,12 @@ interface IWorklistState {
     exceptionText: string;
     recordsOnPage: number;
     authorized: boolean;
+    totalPageCount: number;
+}
+
+interface Imessage {
+    tasks: [],
+    total_task_count: string
 }
 
 const workListInitialState: IWorklistState = {
@@ -28,8 +34,9 @@ const workListInitialState: IWorklistState = {
     isError: false,
     currentPage: 1,
     exceptionText: "",
-    recordsOnPage: 3
-    authorized: false
+    recordsOnPage: 3,
+    authorized: false,
+    totalPageCount: 50
 };
 
 const workListSlice = createSlice({
@@ -51,8 +58,10 @@ const workListSlice = createSlice({
         });
         builder.addCase(
             setWorklistInitial.fulfilled,
-            (state, action: PayloadAction<[]>) => {
-                state.list = action.payload;
+            (state, action: PayloadAction<Imessage>) => {
+                console.log("action.payload", action.payload)
+                state.list = action.payload?.tasks;
+                state.totalPageCount = Number(action.payload?.total_task_count);
                 state.isLoading = false;
             }
         );

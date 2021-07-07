@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import styles from "./Pagination.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentPage } from "../../store/worklist";
-import {getCurrentTasks} from "../Selectors";
+import {getCurrentTasks, getTotalPageCount} from "../Selectors";
 import { RootState } from "../../store";
 import {StyledPaginationItem} from "../ui/StyledPaginationItem";
 import {StyledPaginationWrapper} from "../ui/StyledPaginationWrapper";
@@ -17,7 +17,7 @@ export const Pagination = React.memo(() => {
     (state: RootState) => state.wl.recordsOnPage
   );
 
-  const worklist = useSelector(getCurrentTasks);
+  const totalPageCount = useSelector(getTotalPageCount)
 
   const paginate = useCallback(
     (pageNumber) => dispatch(setCurrentPage(pageNumber)),
@@ -27,7 +27,7 @@ export const Pagination = React.memo(() => {
   const pageNumbers = [];
   for (
     let i = 1;
-    i <= Math.ceil(worklist.length / recordsOnPage);
+    i <= Math.ceil(totalPageCount / recordsOnPage);
     i++
   ) {
     pageNumbers.push(i);

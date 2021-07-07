@@ -26,10 +26,28 @@ export const NavBar: React.FC = () => {
         })
     );
 
+    const addTask = () => {
+        console.log("addTask")
+    }
+
+    const authorize = () => {
+        console.log("authorize")
+    }
+
     const classes = useStyles();
 
     return (
         <Container maxWidth="md">
+
+            <NavWrapper className="nav-lan">
+                <nav>
+
+                        <span className='' id='EN' onClick={addTask}>Добавить задачу</span>
+                        <span id='break'>|</span>
+                        <span className='' id='ru' onClick={authorize}>Авторизация</span>
+                </nav>
+            </NavWrapper>
+
             <NavWrapper>
                 <nav>
                     <Grid item xs={12} className={classes.headContainer}>
