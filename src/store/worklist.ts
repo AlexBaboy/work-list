@@ -19,6 +19,7 @@ interface IWorklistState {
     currentPage: number;
     exceptionText: string;
     recordsOnPage: number;
+    authorized: boolean;
 }
 
 const workListInitialState: IWorklistState = {
@@ -28,6 +29,7 @@ const workListInitialState: IWorklistState = {
     currentPage: 1,
     exceptionText: "",
     recordsOnPage: 3
+    authorized: false
 };
 
 const workListSlice = createSlice({
@@ -37,6 +39,9 @@ const workListSlice = createSlice({
     reducers: {
         setCurrentPage(state, action: PayloadAction<number>) {
             state.currentPage = action.payload;
+        },
+        setAuthorized(state, action: PayloadAction<boolean>) {
+            state.authorized = action.payload
         }
     },
 
@@ -59,4 +64,4 @@ const workListSlice = createSlice({
 });
 
 export default workListSlice.reducer;
-export const { setCurrentPage } = workListSlice.actions;
+export const { setCurrentPage, setAuthorized } = workListSlice.actions;
