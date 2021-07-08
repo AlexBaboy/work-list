@@ -71,11 +71,12 @@ const workListSlice = createSlice({
         //onchange
         builder.addCase(changePageRequest.pending, (state, action) => {
             state.isLoading = true;
+            state.currentPage = action.meta.arg
         });
         builder.addCase(
-            changePageRequest.fulfilled,
+            (changePageRequest.fulfilled),
             (state, action: PayloadAction<Imessage>) => {
-                console.log("action.payload", action.payload)
+                console.log("78 action.payload", action.payload)
                 state.list = action.payload?.tasks;
                 state.totalTaskCount = Number(action.payload?.total_task_count);
                 state.isLoading = false;
