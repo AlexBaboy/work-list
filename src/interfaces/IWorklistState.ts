@@ -8,5 +8,5 @@ export interface IWorklistState {
     exceptionText: string;
     recordsOnPage: number;
     authorized: boolean;
-    totalPageCount: number;
+    totalTaskCount: number;
 }

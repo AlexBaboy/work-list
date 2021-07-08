@@ -15,8 +15,9 @@ export const setWorklistInitial = createAsyncThunk(
 
 export const changePageRequest = createAsyncThunk(
     "worklist/changePageRequest",
-    async (currentPage) => {
+    async (currentPage: number) => {
         const response = await axios.get(`https://uxcandy.com/~shapoval/test-task-backend/v2/?developer=Alex&page=${currentPage}`);
+        console.log("currentPage",currentPage)
         console.log(response?.data?.message?.tasks)
         return response?.data?.message;
     }
@@ -31,7 +32,7 @@ const workListInitialState: IWorklistState = {
     exceptionText: "",
     recordsOnPage: 3,
     authorized: false,
-    totalPageCount: 50
+    totalTaskCount: 50
 };
 
 const workListSlice = createSlice({
@@ -48,6 +49,8 @@ const workListSlice = createSlice({
     },
 
     extraReducers: (builder) => {
+
+        // initial
         builder.addCase(setWorklistInitial.pending, (state, action) => {
             state.isLoading = true;
         });
@@ -56,11 +59,29 @@ const workListSlice = createSlice({
             (state, action: PayloadAction<Imessage>) => {
                 console.log("action.payload", action.payload)
                 state.list = action.payload?.tasks;
-                state.totalPageCount = Number(action.payload?.total_task_count);
+                state.totalTaskCount = Number(action.payload?.total_task_count);
                 state.isLoading = false;
             }
         );
         builder.addCase(setWorklistInitial.rejected, (state, action) => {
+            state.isError = true;
+            state.exceptionText = action.error?.toString();
+        });
+
+        //onchange
+        builder.addCase(changePageRequest.pending, (state, action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(
+            changePageRequest.fulfilled,
+            (state, action: PayloadAction<Imessage>) => {
+                console.log("action.payload", action.payload)
+                state.list = action.payload?.tasks;
+                state.totalTaskCount = Number(action.payload?.total_task_count);
+                state.isLoading = false;
+            }
+        );
+        builder.addCase(changePageRequest.rejected, (state, action) => {
             state.isError = true;
             state.exceptionText = action.error?.toString();
         });
