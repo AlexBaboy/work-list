@@ -12,7 +12,7 @@ import {getCurrentTasksPaginated} from "../Selectors";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {RootState} from "../../store";
 import {setWorklistInitial} from "../../store/worklist";
-import { Pagination } from "../../components/Pagination";
+import { Pagination } from "../Pagination";
 import Container from "@material-ui/core/Container";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 

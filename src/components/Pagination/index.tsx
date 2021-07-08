@@ -1,57 +1,44 @@
 import React, { useCallback } from "react";
 import styles from "./Pagination.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentPage } from "../../store/worklist";
-import {getCurrentTasks, getTotalPageCount} from "../Selectors";
+import {changePageRequest, setCurrentPage} from "../../store/worklist";
+import { getTotalPageCount} from "../Selectors";
 import { RootState } from "../../store";
-import {StyledPaginationItem} from "../ui/StyledPaginationItem";
+
 import {StyledPaginationWrapper} from "../ui/StyledPaginationWrapper";
+import ReactPaginate from 'react-paginate';
 
 export const Pagination = React.memo(() => {
   const dispatch = useDispatch();
 
-  const currentPage = useSelector(
-    (state: RootState) => state.wl.currentPage
-  );
-  const recordsOnPage = useSelector(
-    (state: RootState) => state.wl.recordsOnPage
-  );
-
   const totalPageCount = useSelector(getTotalPageCount)
 
-  const paginate = useCallback(
+  /*const paginate = useCallback(
     (pageNumber) => dispatch(setCurrentPage(pageNumber)),
     []
+  );*/
+
+  const paginate = useCallback(
+      (pageNumber) => dispatch(changePageRequest(pageNumber)),
+      []
   );
 
-  const pageNumbers = [];
-  for (
-    let i = 1;
-    i <= Math.ceil(totalPageCount / recordsOnPage);
-    i++
-  ) {
-    pageNumbers.push(i);
-  }
 
   return (
     <div>
       <StyledPaginationWrapper>
-        <ul className={styles.ulStyle}>
-          {pageNumbers.map((number) => (
-            <li key={number}>
-              <StyledPaginationItem
-                className={
-                  currentPage === number
-                    ? styles.currentPageNum
-                    : styles.pageNum
-                }
-                onClick={() => paginate(number)}
-              >
-                {number}
-              </StyledPaginationItem>
-            </li>
-          ))}
-        </ul>
+        <ReactPaginate
+            previousLabel={'назад'}
+            nextLabel={'вперед'}
+            breakLabel={'...'}
+            breakClassName={'break-me'}
+            pageCount={totalPageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={paginate}
+            containerClassName={'pagination'}
+            activeClassName={'active'}
+        />
       </StyledPaginationWrapper>
     </div>
   );

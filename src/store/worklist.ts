@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Task } from "../interfaces/Task";
+import {IWorklistState} from "../interfaces/IWorklistState";
+import {Imessage} from "../interfaces/Imessage";
 
 export const setWorklistInitial = createAsyncThunk(
     "worklist/setWorkListInitial",
@@ -12,21 +13,15 @@ export const setWorklistInitial = createAsyncThunk(
     }
 );
 
-interface IWorklistState {
-    list: Task[];
-    isLoading: boolean;
-    isError: boolean;
-    currentPage: number;
-    exceptionText: string;
-    recordsOnPage: number;
-    authorized: boolean;
-    totalPageCount: number;
-}
+export const changePageRequest = createAsyncThunk(
+    "worklist/changePageRequest",
+    async (currentPage) => {
+        const response = await axios.get(`https://uxcandy.com/~shapoval/test-task-backend/v2/?developer=Alex&page=${currentPage}`);
+        console.log(response?.data?.message?.tasks)
+        return response?.data?.message;
+    }
+);
 
-interface Imessage {
-    tasks: [],
-    total_task_count: string
-}
 
 const workListInitialState: IWorklistState = {
     list: [],
