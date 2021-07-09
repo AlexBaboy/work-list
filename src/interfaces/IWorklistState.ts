@@ -9,4 +9,8 @@ export interface IWorklistState {
     recordsOnPage: number;
     authorized: boolean;
     totalTaskCount: number;
+    sortIdType: string | undefined;
+    sortUsernameType: string | undefined;
+    sortEmailType: string | undefined;
+    sortStatusType: string | undefined;
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import {WorkList} from './components/Worklist';
+import {WorkListTable} from './components/Worklist/WorkListTable';
 import './App.css';
 import {Provider} from "react-redux";
 import store from "./store";
@@ -8,6 +8,7 @@ import { Route, BrowserRouter, Switch } from "react-router-dom";
 import {Login} from "./pages/Login";
 import {AddTask} from "./pages/AddTask";
 import {ErrorPage} from "./pages/ErrorPage";
+import {WorkList} from "./pages/WorkList";
 
 function App() {
   return (
