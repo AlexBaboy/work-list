@@ -5,7 +5,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import React from "react";
+import React, {useEffect} from "react";
 import Avatar from "@material-ui/core/Avatar";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -19,11 +19,11 @@ import {
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import {
-    changePageRequest,
+    changePageRequest, changeRequest,
     setSortEmailType,
     setSortIdType,
     setSortStatusType,
-    setSortUserNameType
+    setSortUserNameType, setWorklistInitial
 } from "../../../store/worklist";
 
 const useStyles = makeStyles((theme) =>
@@ -53,13 +53,9 @@ export const WorkListTable = () => {
     const sortEmailType = useSelector(getSortEmailType)
     const sortStatusType = useSelector(getSortStatusType)
 
-    console.log(useSelector(getCurrentUrlStr))
+    const currentUrl = useSelector(getCurrentUrlStr)
 
     const dispatch = useDispatch();
-
-    const sortIdField = (type:string = 'asc') => {
-        return dispatch(setSortIdType(type))
-    }
 
     const sortField = (name: string, type:string = 'asc') => {
         switch(name) {
@@ -83,6 +79,10 @@ export const WorkListTable = () => {
     const titleValue = (type: string = 'asc') => {
         return 'сортировать по ' +  (type === 'asc' ? ' убыванию' : 'возрастанию')
     }
+
+    React.useEffect(() => {
+        dispatch(changeRequest(currentUrl));
+    }, [sortIdType, sortUserNameType, sortEmailType, sortStatusType]);
 
     return (
         <TableContainer>

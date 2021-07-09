@@ -22,6 +22,14 @@ export const changePageRequest = createAsyncThunk(
     }
 );
 
+export const changeRequest = createAsyncThunk(
+    "worklist/changeRequest",
+    async (changedUrl: string) => {
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL!}${changedUrl}`);
+        return response?.data?.message;
+    }
+);
+
 
 const workListInitialState: IWorklistState = {
     list: [],
