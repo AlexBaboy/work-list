@@ -7,6 +7,7 @@ import Container from "@material-ui/core/Container";
 import {WorkListTable} from "../components/Worklist/WorkListTable";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {setWorklistInitial} from "../store/worklist";
+import styles from "../components/ui/styles.module.css";
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -22,10 +23,9 @@ const useStyles = makeStyles((theme) =>
             left: `50%`,
             width: '100%',
             height: '100%',
-            zIndex: 2,
+            zIndex: 3,
             content: '12345',
             textAlign: 'center',
-            backgroundColor: 'white',
             color: '#1a90ff',
             animationDuration: '550ms',
         }
@@ -48,16 +48,22 @@ export const WorkList = () => {
         return <div data-testid="contacts-error">Error...</div>;
 
     return (
+
         <Container className={classes.root}>
-        {isLoading && <CircularProgress className={classes.loader}
-                                        variant="determinate"
-                                        size={80}
-                                        thickness={4}
-                                        value={100}
-        ></CircularProgress>}
+        {isLoading &&
+            <div className={styles.loaderWrapper}>
+                <CircularProgress className={classes.loader}
+                                            variant="determinate"
+                                            size={80}
+                                            thickness={4}
+                                            value={100}
+                ></CircularProgress>
+            </div>
+        }
 
                 <WorkListTable />
                 <Pagination />
         </Container>
+
     );
 };
