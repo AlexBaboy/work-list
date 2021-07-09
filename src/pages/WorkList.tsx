@@ -8,6 +8,7 @@ import {WorkListTable} from "../components/Worklist/WorkListTable";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {setWorklistInitial} from "../store/worklist";
 import styles from "../components/ui/styles.module.css";
+import {getErrorStatus, getLoadingStatus} from "../components/Selectors";
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -36,8 +37,8 @@ export const WorkList = () => {
 
     const classes = useStyles();
 
-    const isLoading = useSelector((state: RootState) => state.wl.isLoading);
-    const isError = useSelector((state: RootState) => state.wl.isError);
+    const isLoading = useSelector(getLoadingStatus);
+    const isError = useSelector(getErrorStatus);
 
     const dispatch = useDispatch();
     React.useEffect(() => {

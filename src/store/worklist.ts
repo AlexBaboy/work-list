@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import {IWorklistState} from "../interfaces/IWorklistState";
 import {Imessage} from "../interfaces/Imessage";
+import {useSelector} from "react-redux";
+import {getCurrentUrlStr} from "../components/Selectors";
 
 export const setWorklistInitial = createAsyncThunk(
     "worklist/setWorkListInitial",
@@ -15,7 +17,7 @@ export const setWorklistInitial = createAsyncThunk(
 export const changePageRequest = createAsyncThunk(
     "worklist/changePageRequest",
     async (currentPage: number) => {
-        const response = await axios.get(`https://uxcandy.com/~shapoval/test-task-backend/v2/?developer=Alex&page=${currentPage}`);
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL!}&page=${currentPage}`);
         return response?.data?.message;
     }
 );
@@ -29,7 +31,11 @@ const workListInitialState: IWorklistState = {
     exceptionText: "",
     recordsOnPage: 3,
     authorized: false,
-    totalTaskCount: 50
+    totalTaskCount: 50,
+    sortIdType: undefined,
+    sortUsernameType: undefined,
+    sortEmailType: undefined,
+    sortStatusType: undefined
 };
 
 const workListSlice = createSlice({
@@ -42,6 +48,22 @@ const workListSlice = createSlice({
         },
         setAuthorized(state, action: PayloadAction<boolean>) {
             state.authorized = action.payload
+        },
+        setSortIdType(state, action: PayloadAction<string>) {
+            state.sortIdType = action.payload
+            console.log("52 payload", action.payload)
+        },
+        setSortUserNameType(state, action: PayloadAction<string>) {
+            state.sortUsernameType = action.payload
+            console.log("56 payload", action.payload)
+        },
+        setSortEmailType(state, action: PayloadAction<string>) {
+            state.sortEmailType = action.payload
+            console.log("60 payload", action.payload)
+        },
+        setSortStatusType(state, action: PayloadAction<string>) {
+            state.sortStatusType = action.payload
+            console.log("64 payload", action.payload)
         }
     },
 
@@ -77,6 +99,7 @@ const workListSlice = createSlice({
                 state.list = action.payload?.tasks;
                 state.totalTaskCount = Number(action.payload?.total_task_count);
                 state.isLoading = false;
+
             }
         );
         builder.addCase(changePageRequest.rejected, (state, action) => {
@@ -87,4 +110,4 @@ const workListSlice = createSlice({
 });
 
 export default workListSlice.reducer;
-export const { setCurrentPage, setAuthorized } = workListSlice.actions;
+export const { setCurrentPage, setAuthorized, setSortIdType, setSortUserNameType, setSortEmailType, setSortStatusType } = workListSlice.actions;
