@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import {IWorklistState} from "../interfaces/IWorklistState";
 import {Imessage} from "../interfaces/Imessage";
+import {IChangedParamsRequest} from "../interfaces/IChangedParamsRequest";
 
 export const setWorklistInitial = createAsyncThunk(
     "worklist/setWorkListInitial",
