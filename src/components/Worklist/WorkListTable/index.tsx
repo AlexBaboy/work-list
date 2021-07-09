@@ -7,9 +7,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import React from "react";
 import Avatar from "@material-ui/core/Avatar";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {getCurrentTasksPaginated} from "../../Selectors";
-import {setWorklistInitial} from "../../../store/worklist";
 
 const useStyles = makeStyles((theme) =>
     createStyles({

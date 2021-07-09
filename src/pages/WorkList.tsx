@@ -6,7 +6,6 @@ import { Pagination } from "../components/Pagination";
 import Container from "@material-ui/core/Container";
 import {WorkListTable} from "../components/Worklist/WorkListTable";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
-import {getCurrentTasksPaginated} from "../components/Selectors";
 import {setWorklistInitial} from "../store/worklist";
 
 const useStyles = makeStyles((theme) =>
