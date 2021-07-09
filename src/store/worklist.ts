@@ -5,9 +5,8 @@ import {Imessage} from "../interfaces/Imessage";
 
 export const setWorklistInitial = createAsyncThunk(
     "worklist/setWorkListInitial",
-    async (searchId, { getState, requestId }) => {
-        //const response = await axios.get(process.env.REACT_APP_BASE_URL);
-        const response = await axios.get("https://uxcandy.com/~shapoval/test-task-backend/v2/?developer=Alex");
+    async () => {
+        const response = await axios.get(process.env.REACT_APP_BASE_URL!);
         console.log(response?.data?.message?.tasks)
         return response?.data?.message;
     }
