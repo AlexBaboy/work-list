@@ -9,6 +9,7 @@ import React, {useEffect} from "react";
 import Avatar from "@material-ui/core/Avatar";
 import {useDispatch, useSelector} from "react-redux";
 import {
+    getCurrentPage,
     getCurrentTasks, getCurrentUrlStr,
     getSortEmailType,
     getSortIdType,
@@ -52,12 +53,20 @@ export const WorkListTable = () => {
     const sortUserNameType = useSelector(getSortUserNameType)
     const sortEmailType = useSelector(getSortEmailType)
     const sortStatusType = useSelector(getSortStatusType)
+    const currentPage = useSelector(getCurrentPage)
 
-    const currentUrl = useSelector(getCurrentUrlStr)
+    //const currentUrl = useSelector(getCurrentUrlStr)
 
     const dispatch = useDispatch();
 
+    const changeUrl = (name: string, type:string = 'asc') => {
+        return dispatch(changeRequest( `&sort_field=${name}&sort_direction=${type}&page=${currentPage}`))
+    }
+
     const sortField = (name: string, type:string = 'asc') => {
+
+        changeUrl(name, type);
+
         switch(name) {
             case 'id':
                 return dispatch(setSortIdType(type))
@@ -72,17 +81,17 @@ export const WorkListTable = () => {
                 return dispatch(setSortStatusType(type))
                 break;
         }
-
         return false
     }
 
     const titleValue = (type: string = 'asc') => {
         return 'сортировать по ' +  (type === 'asc' ? ' убыванию' : 'возрастанию')
     }
-
+/*
     React.useEffect(() => {
+        console.log("83 currentUrl", currentUrl)
         dispatch(changeRequest(currentUrl));
-    }, [sortIdType, sortUserNameType, sortEmailType, sortStatusType]);
+    }, [sortIdType, sortUserNameType, sortEmailType, sortStatusType]);*/
 
     return (
         <TableContainer>
@@ -131,6 +140,7 @@ export const WorkListTable = () => {
                                     alt={todo.username}
                                     src={todo.image_path}
                                 />
+                                {todo.username}
                             </TableCell>
                             <TableCell>
                                 {todo.email}
