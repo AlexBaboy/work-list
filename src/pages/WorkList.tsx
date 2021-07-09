@@ -31,18 +31,16 @@ export const WorkList = () => {
         dispatch(setWorklistInitial());
     }, []);
 
-    /*if (isLoading) {
-        return (
-            <CircularProgress variant="determinate"></CircularProgress>
-        );
-    }*/
     if (isError)
         return <div data-testid="contacts-error">Error...</div>;
 
     return (
-        <Container className={classes.root}>
-            <WorkListTable />
-            <Pagination />
-        </Container>
+        <>
+        {isLoading && <CircularProgress variant="determinate"></CircularProgress>}
+            <Container className={classes.root}>
+                <WorkListTable />
+                <Pagination />
+            </Container>
+        </>
     );
 };
