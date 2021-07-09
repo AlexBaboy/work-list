@@ -2,8 +2,6 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import {IWorklistState} from "../interfaces/IWorklistState";
 import {Imessage} from "../interfaces/Imessage";
-import {useSelector} from "react-redux";
-import {getCurrentUrlStr} from "../components/Selectors";
 
 export const setWorklistInitial = createAsyncThunk(
     "worklist/setWorkListInitial",
@@ -24,9 +22,9 @@ export const changePageRequest = createAsyncThunk(
 
 export const changeRequest = createAsyncThunk(
     "worklist/changeRequest",
-    async (changedUrl: string) => {
-        console.log("changedUrl", changedUrl);
-        const response = await axios.get(`${process.env.REACT_APP_BASE_URL!}${changedUrl}`);
+    async (changedParamsRequest: IChangedParamsRequest) => {
+        console.log("changedUrl", changedParamsRequest.url);
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL!}${changedParamsRequest.url}`);
         return response?.data?.message;
     }
 );
@@ -41,6 +39,8 @@ const workListInitialState: IWorklistState = {
     recordsOnPage: 3,
     authorized: false,
     totalTaskCount: 50,
+    sortFieldName: undefined,
+    sortDirection: undefined,
     sortIdType: undefined,
     sortUsernameType: undefined,
     sortEmailType: undefined,
@@ -57,22 +57,6 @@ const workListSlice = createSlice({
         },
         setAuthorized(state, action: PayloadAction<boolean>) {
             state.authorized = action.payload
-        },
-        setSortIdType(state, action: PayloadAction<string>) {
-            state.sortIdType = action.payload
-            console.log("52 payload", action.payload)
-        },
-        setSortUserNameType(state, action: PayloadAction<string>) {
-            state.sortUsernameType = action.payload
-            console.log("56 payload", action.payload)
-        },
-        setSortEmailType(state, action: PayloadAction<string>) {
-            state.sortEmailType = action.payload
-            console.log("60 payload", action.payload)
-        },
-        setSortStatusType(state, action: PayloadAction<string>) {
-            state.sortStatusType = action.payload
-            console.log("64 payload", action.payload)
         }
     },
 
@@ -97,21 +81,22 @@ const workListSlice = createSlice({
         });
 
         //onchange
-        builder.addCase(changePageRequest.pending, (state, action) => {
+        builder.addCase(changeRequest.pending, (state, action) => {
             state.isLoading = true;
-            state.currentPage = action.meta.arg
+            console.log("89 action", action);
+            state.sortFieldName = action.meta.arg.sortFieldName
+            state.sortDirection = action.meta.arg.sortDirection
         });
         builder.addCase(
-            (changePageRequest.fulfilled),
+            (changeRequest.fulfilled),
             (state, action: PayloadAction<Imessage>) => {
-                console.log("78 action.payload", action.payload)
+                console.log("96 action.payload", action.payload)
                 state.list = action.payload?.tasks;
                 state.totalTaskCount = Number(action.payload?.total_task_count);
                 state.isLoading = false;
-
             }
         );
-        builder.addCase(changePageRequest.rejected, (state, action) => {
+        builder.addCase(changeRequest.rejected, (state, action) => {
             state.isError = true;
             state.exceptionText = action.error?.toString();
         });
@@ -119,4 +104,4 @@ const workListSlice = createSlice({
 });
 
 export default workListSlice.reducer;
-export const { setCurrentPage, setAuthorized, setSortIdType, setSortUserNameType, setSortEmailType, setSortStatusType } = workListSlice.actions;
+export const { setCurrentPage, setAuthorized  } = workListSlice.actions;

@@ -1,3 +1,4 @@
+import React from "react";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -5,27 +6,14 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import React, {useEffect} from "react";
 import Avatar from "@material-ui/core/Avatar";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {
     getCurrentPage,
-    getCurrentTasks, getCurrentUrlStr,
-    getSortEmailType,
-    getSortIdType,
-    getSortStatusType,
-    getSortUserNameType
+    getCurrentTasks, getSortDirection, getSortFieldName
 } from "../../Selectors";
 
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-import {
-    changePageRequest, changeRequest,
-    setSortEmailType,
-    setSortIdType,
-    setSortStatusType,
-    setSortUserNameType, setWorklistInitial
-} from "../../../store/worklist";
+import {ArrowWrapper} from "../../ArrowWrapper";
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -35,12 +23,7 @@ const useStyles = makeStyles((theme) =>
         table: {
             minWidth: 650,
         },
-        arrow : {
-            cursor: 'pointer',
-            width: '50px',
-            height: '50px',
-            margin: '-20px 0'
-        }
+
     })
 );
 
@@ -49,49 +32,8 @@ export const WorkListTable = () => {
     const classes = useStyles();
     const worklist = useSelector(getCurrentTasks);
 
-    const sortIdType = useSelector(getSortIdType)
-    const sortUserNameType = useSelector(getSortUserNameType)
-    const sortEmailType = useSelector(getSortEmailType)
-    const sortStatusType = useSelector(getSortStatusType)
+    const sortDirection = useSelector(getSortDirection)
     const currentPage = useSelector(getCurrentPage)
-
-    //const currentUrl = useSelector(getCurrentUrlStr)
-
-    const dispatch = useDispatch();
-
-    const changeUrl = (name: string, type:string = 'asc') => {
-        return dispatch(changeRequest( `&sort_field=${name}&sort_direction=${type}&page=${currentPage}`))
-    }
-
-    const sortField = (name: string, type:string = 'asc') => {
-
-        changeUrl(name, type);
-
-        switch(name) {
-            case 'id':
-                return dispatch(setSortIdType(type))
-                break;
-            case 'username':
-                return dispatch(setSortUserNameType(type))
-                break;
-            case 'email':
-                return dispatch(setSortEmailType(type))
-                break;
-            case 'status':
-                return dispatch(setSortStatusType(type))
-                break;
-        }
-        return false
-    }
-
-    const titleValue = (type: string = 'asc') => {
-        return 'сортировать по ' +  (type === 'asc' ? ' убыванию' : 'возрастанию')
-    }
-/*
-    React.useEffect(() => {
-        console.log("83 currentUrl", currentUrl)
-        dispatch(changeRequest(currentUrl));
-    }, [sortIdType, sortUserNameType, sortEmailType, sortStatusType]);*/
 
     return (
         <TableContainer>
@@ -99,33 +41,17 @@ export const WorkListTable = () => {
                 <TableHead className="table-head">
                     <TableRow>
                         <TableCell><b>ID</b>
-                            {sortIdType === 'desc' ?
-                                <ArrowDropDownIcon titleAccess={titleValue(sortIdType)}  className={classes.arrow}  onClick={ () => sortField('id','asc')} />
-                                :
-                                <ArrowDropUpIcon titleAccess={titleValue(sortIdType)} className={classes.arrow} onClick={ () => sortField('id', 'desc')} />
-                            }
+                            <ArrowWrapper sortFieldName='id' sortDirection={sortDirection} currentPage={currentPage}/>
                         </TableCell>
                         <TableCell><b>Имя пользователя</b>
-                            {sortUserNameType === 'desc' ?
-                                <ArrowDropDownIcon titleAccess={titleValue(sortUserNameType)} className={classes.arrow}  onClick={ () => sortField('username','asc')} />
-                                :
-                                <ArrowDropUpIcon titleAccess={titleValue(sortUserNameType)} className={classes.arrow}  onClick={ () => sortField('username', 'desc')} />
-                            }
+                            <ArrowWrapper sortFieldName='username' sortDirection={sortDirection} currentPage={currentPage} />
                         </TableCell>
                         <TableCell><b>Email</b>
-                            {sortEmailType === 'desc' ?
-                                <ArrowDropDownIcon titleAccess={titleValue(sortEmailType)} className={classes.arrow}  onClick={ () => sortField('email','asc')} />
-                                :
-                                <ArrowDropUpIcon titleAccess={titleValue(sortEmailType)} className={classes.arrow}  onClick={ () => sortField('email', 'desc')} />
-                            }
+                            <ArrowWrapper sortFieldName='email' sortDirection={sortDirection} currentPage={currentPage} />
                         </TableCell>
                         <TableCell><b>Текст задачи</b></TableCell>
                         <TableCell><b>Статус</b>
-                            {sortStatusType === 'desc' ?
-                                <ArrowDropDownIcon titleAccess={titleValue(sortStatusType)} className={classes.arrow}  onClick={ () => sortField('status','asc')} />
-                                :
-                                <ArrowDropUpIcon titleAccess={titleValue(sortStatusType)} className={classes.arrow}  onClick={ () => sortField('status', 'desc')} />
-                            }
+                            <ArrowWrapper sortFieldName='status' sortDirection={sortDirection} currentPage={currentPage} />
                         </TableCell>
                     </TableRow>
                 </TableHead>

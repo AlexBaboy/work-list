@@ -1,24 +1,37 @@
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {changePageRequest} from "../../store/worklist";
-import {getRecordsCountOnPage, getTotalTaskCount} from "../Selectors";
-
+import {changePageRequest, changeRequest} from "../../store/worklist";
+import {getRecordsCountOnPage, getSortDirection, getSortFieldName, getTotalTaskCount} from "../Selectors";
 import {StyledPaginationWrapper} from "../ui/StyledPaginationWrapper";
 import ReactPaginate from 'react-paginate';
+import {IChangedParamsRequest} from "../../interfaces/IChangedParamsRequest";
 
 export const Pagination = React.memo(() => {
+
   const dispatch = useDispatch();
 
-  const totalTaskCount = useSelector(getTotalTaskCount)
+  const sortFieldName = useSelector(getSortFieldName)
+  const sortDirection = useSelector(getSortDirection)
 
   const paginate = useCallback(
       (pageNumber) => {
-        dispatch(changePageRequest(pageNumber.selected + 1))
+
+          const changedParamsRequest: IChangedParamsRequest = {
+              sortFieldName,
+              sortDirection,
+              currentPage: pageNumber.selected + 1,
+              url: `&sort_field=${sortFieldName}&sort_direction=${sortDirection}&page=${pageNumber.selected + 1}`
+          }
+          return dispatch(changeRequest( changedParamsRequest ))
+
+
+        //dispatch(changePageRequest(pageNumber.selected + 1))
       },
       []
   );
 
   const taskPerPage = useSelector(getRecordsCountOnPage)
+  const totalTaskCount = useSelector(getTotalTaskCount)
   const totalPageCount = Math.ceil(totalTaskCount / taskPerPage);
 
   return (
