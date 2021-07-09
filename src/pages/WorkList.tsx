@@ -15,6 +15,19 @@ const useStyles = makeStyles((theme) =>
         },
         table: {
             minWidth: 650,
+        },
+        loader: {
+            position: 'absolute',
+            top: `50%`,
+            left: `50%`,
+            width: '100%',
+            height: '100%',
+            zIndex: 2,
+            content: '12345',
+            textAlign: 'center',
+            backgroundColor: 'white',
+            color: '#1a90ff',
+            animationDuration: '550ms',
         }
     })
 );
@@ -35,12 +48,16 @@ export const WorkList = () => {
         return <div data-testid="contacts-error">Error...</div>;
 
     return (
-        <>
-        {isLoading && <CircularProgress variant="determinate"></CircularProgress>}
-            <Container className={classes.root}>
+        <Container className={classes.root}>
+        {isLoading && <CircularProgress className={classes.loader}
+                                        variant="determinate"
+                                        size={80}
+                                        thickness={4}
+                                        value={100}
+        ></CircularProgress>}
+
                 <WorkListTable />
                 <Pagination />
-            </Container>
-        </>
+        </Container>
     );
 };
