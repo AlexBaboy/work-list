@@ -17,8 +17,6 @@ export const changePageRequest = createAsyncThunk(
     "worklist/changePageRequest",
     async (currentPage: number) => {
         const response = await axios.get(`https://uxcandy.com/~shapoval/test-task-backend/v2/?developer=Alex&page=${currentPage}`);
-        console.log("currentPage",currentPage)
-        console.log(response?.data?.message?.tasks)
         return response?.data?.message;
     }
 );
@@ -71,6 +69,7 @@ const workListSlice = createSlice({
         //onchange
         builder.addCase(changePageRequest.pending, (state, action) => {
             state.isLoading = true;
+            state.currentPage = action.meta.arg
         });
         builder.addCase(
             changePageRequest.fulfilled,

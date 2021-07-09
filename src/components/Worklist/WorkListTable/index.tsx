@@ -8,13 +8,8 @@ import TableRow from "@material-ui/core/TableRow";
 import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import {useDispatch, useSelector} from "react-redux";
-import {getCurrentTasksPaginated} from "../Selectors";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import {RootState} from "../../store";
-import {setWorklistInitial} from "../../store/worklist";
-import { Pagination } from "../Pagination";
-import Container from "@material-ui/core/Container";
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import {getCurrentTasksPaginated} from "../../Selectors";
+import {setWorklistInitial} from "../../../store/worklist";
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -27,28 +22,12 @@ const useStyles = makeStyles((theme) =>
     })
 );
 
-export const WorkList = () => {
+export const WorkListTable = () => {
 
     const classes = useStyles();
-    const isLoading = useSelector((state: RootState) => state.wl.isLoading);
-    const isError = useSelector((state: RootState) => state.wl.isError);
     const worklist = useSelector(getCurrentTasksPaginated);
 
-    const dispatch = useDispatch();
-    React.useEffect(() => {
-        dispatch(setWorklistInitial());
-    }, []);
-
-    if (isLoading) {
-        return (
-            <CircularProgress variant="determinate"></CircularProgress>
-        );
-    }
-    if (isError)
-        return <div data-testid="contacts-error">Error...</div>;
-
     return (
-        <Container className={classes.root}>
         <TableContainer>
             <Table className={classes.table} aria-label="contacts table">
                 <TableHead className="table-head">
@@ -86,7 +65,5 @@ export const WorkList = () => {
                 </TableBody>
             </Table>
         </TableContainer>
-        <Pagination />
-        </Container>
     );
 };

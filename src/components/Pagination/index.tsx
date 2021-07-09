@@ -14,7 +14,10 @@ export const Pagination = React.memo(() => {
   const totalTaskCount = useSelector(getTotalTaskCount)
 
   const paginate = useCallback(
-      (pageNumber) => dispatch(changePageRequest(pageNumber.selected + 1)),
+      (pageNumber) => {
+        dispatch(setCurrentPage(pageNumber.selected + 1))
+        //dispatch(changePageRequest(pageNumber.selected + 1))
+      },
       []
   );
 
