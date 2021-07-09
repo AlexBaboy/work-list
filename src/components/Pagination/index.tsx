@@ -1,9 +1,7 @@
 import React, { useCallback } from "react";
-import styles from "./Pagination.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import {changePageRequest, setCurrentPage} from "../../store/worklist";
+import {changePageRequest} from "../../store/worklist";
 import {getRecordsCountOnPage, getTotalTaskCount} from "../Selectors";
-import { RootState } from "../../store";
 
 import {StyledPaginationWrapper} from "../ui/StyledPaginationWrapper";
 import ReactPaginate from 'react-paginate';
@@ -15,8 +13,7 @@ export const Pagination = React.memo(() => {
 
   const paginate = useCallback(
       (pageNumber) => {
-        dispatch(setCurrentPage(pageNumber.selected + 1))
-        //dispatch(changePageRequest(pageNumber.selected + 1))
+        dispatch(changePageRequest(pageNumber.selected + 1))
       },
       []
   );
@@ -38,7 +35,6 @@ export const Pagination = React.memo(() => {
             onPageChange={paginate}
             containerClassName={'pagination'}
             activeClassName={'active'}
-            //initialPage={0}
         />
       </StyledPaginationWrapper>
     </div>

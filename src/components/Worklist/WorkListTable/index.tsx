@@ -8,7 +8,7 @@ import TableRow from "@material-ui/core/TableRow";
 import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import {useSelector} from "react-redux";
-import {getCurrentTasksPaginated} from "../../Selectors";
+import {getCurrentTasks, getCurrentTasksPaginated} from "../../Selectors";
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) =>
 export const WorkListTable = () => {
 
     const classes = useStyles();
-    const worklist = useSelector(getCurrentTasksPaginated);
+    const worklist = useSelector(getCurrentTasks);
 
     return (
         <TableContainer>
