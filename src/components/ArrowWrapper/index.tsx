@@ -6,7 +6,7 @@ import {IChangedParamsRequest} from "../../interfaces/IChangedParamsRequest";
 import {changeRequest} from "../../store/worklist";
 import {useDispatch} from "react-redux";
 
-export const ArrowWrapper = (sortFieldName: string, sortDirection: string, currentPage: number) => {
+export const ArrowWrapper: React.FC<{sortFieldName: string, sortDirection: string, currentPage: number}> = ({sortFieldName,sortDirection, currentPage}) => {
 
     const dispatch = useDispatch();
 
@@ -28,6 +28,7 @@ export const ArrowWrapper = (sortFieldName: string, sortDirection: string, curre
     }
 
     const changeParamsRequest = (name: string, type:string = 'asc') => {
+
         const changedParamsRequest: IChangedParamsRequest = {
             sortFieldName: name,
             sortDirection: type,
@@ -40,9 +41,9 @@ export const ArrowWrapper = (sortFieldName: string, sortDirection: string, curre
     return (
         <>
         {sortDirection === 'desc' ?
-            <ArrowDropDownIcon titleAccess={titleValue(sortDirection)}  className={classes.arrow}  onClick={ () => changeParamsRequest(sortFieldName,sortDirection)} />
+            <ArrowDropDownIcon titleAccess={titleValue(sortDirection)}  className={classes.arrow}  onClick={ () => changeParamsRequest(sortFieldName, 'asc')} />
             :
-            <ArrowDropUpIcon titleAccess={titleValue(sortDirection)} className={classes.arrow} onClick={ () => changeParamsRequest(sortFieldName,sortDirection)} />
+            <ArrowDropUpIcon titleAccess={titleValue(sortDirection)} className={classes.arrow} onClick={ () => changeParamsRequest(sortFieldName, 'desc')} />
         }
         </>
     )

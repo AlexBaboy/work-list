@@ -58,7 +58,19 @@ const workListSlice = createSlice({
         },
         setAuthorized(state, action: PayloadAction<boolean>) {
             state.authorized = action.payload
-        }
+        },
+        setSortIdType(state, action: PayloadAction<string>) {
+            state.sortIdType = action.payload
+        },
+        setSortUserNameType(state, action: PayloadAction<string>) {
+            state.sortUsernameType = action.payload
+        },
+        setSortEmailType(state, action: PayloadAction<string>) {
+            state.sortEmailType = action.payload
+        },
+        setSortStatusType(state, action: PayloadAction<string>) {
+            state.sortStatusType = action.payload
+        },
     },
 
     extraReducers: (builder) => {
@@ -105,4 +117,4 @@ const workListSlice = createSlice({
 });
 
 export default workListSlice.reducer;
-export const { setCurrentPage, setAuthorized  } = workListSlice.actions;
+export const { setCurrentPage, setAuthorized, setSortIdType, setSortUserNameType, setSortEmailType, setSortStatusType  } = workListSlice.actions;

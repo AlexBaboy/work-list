@@ -1,10 +1,11 @@
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {changePageRequest, changeRequest} from "../../store/worklist";
+import {changeRequest} from "../../store/worklist";
 import {getRecordsCountOnPage, getSortDirection, getSortFieldName, getTotalTaskCount} from "../Selectors";
 import {StyledPaginationWrapper} from "../ui/StyledPaginationWrapper";
 import ReactPaginate from 'react-paginate';
-import {IChangedParamsRequest} from "../../interfaces/IChangedParamsRequest";
+
+import {getChangedUrlParams} from "../../functions";
 
 export const Pagination = React.memo(() => {
 
@@ -15,17 +16,8 @@ export const Pagination = React.memo(() => {
 
   const paginate = useCallback(
       (pageNumber) => {
-
-          const changedParamsRequest: IChangedParamsRequest = {
-              sortFieldName,
-              sortDirection,
-              currentPage: pageNumber.selected + 1,
-              url: `&sort_field=${sortFieldName}&sort_direction=${sortDirection}&page=${pageNumber.selected + 1}`
-          }
+          const changedParamsRequest = getChangedUrlParams(sortFieldName, sortDirection, pageNumber.selected + 1)
           return dispatch(changeRequest( changedParamsRequest ))
-
-
-        //dispatch(changePageRequest(pageNumber.selected + 1))
       },
       []
   );
