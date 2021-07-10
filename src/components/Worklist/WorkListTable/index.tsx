@@ -48,10 +48,10 @@ const useStyles = makeStyles((theme) =>
             width: '20%'
         },
         cellStatus: {
-            width: '10%'
+            width: '15%'
         },
         cellText: {
-            width: '40%'
+            width: '35%'
         },
         arrow : {
             cursor: 'pointer',
@@ -68,8 +68,6 @@ export const WorkListTable = () => {
     const worklist = useSelector(getCurrentTasks);
 
     const currentPage = useSelector(getCurrentPage)
-    const sortFieldName = useSelector(getSortFieldName)
-    const sortDirection = useSelector(getSortDirection)
 
     const titleValue = (type: string = 'asc') => {
         return 'сортировать по ' +  (type === 'asc' ? ' убыванию' : 'возрастанию')

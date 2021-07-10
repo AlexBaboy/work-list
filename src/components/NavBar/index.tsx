@@ -6,6 +6,11 @@ import Grid from "@material-ui/core/Grid";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 
 import Container from "@material-ui/core/Container";
+import {StyledNavButtons} from "../ui/StyledNavButtons";
+import {StyledButtonSwitch} from "../ui/StyledButtonSwitch";
+import {StyledNavWrapper} from "../ui/StyledNavWrapper";
+import {useSelector} from "react-redux";
+import {getAuthorized} from "../Selectors";
 
 const NavWrapper = styled.div`
   display: flex;
@@ -22,9 +27,14 @@ export const NavBar: React.FC = () => {
             },
             headContainer: {
                 marginBottom: theme.spacing(3),
+            },
+            navWrapper: {
+                justifyContent: 'flex-end'
             }
         })
     );
+
+    const authorizeStatus = useSelector(getAuthorized)
 
     const addTask = () => {
         console.log("addTask")
@@ -37,15 +47,17 @@ export const NavBar: React.FC = () => {
     const classes = useStyles();
 
     return (
-        <Container maxWidth="md">
+        <Container>
 
-            <NavWrapper className="nav-lan">
+            <StyledNavWrapper>
                 <nav>
-                    <span className='' id='EN' onClick={addTask}>Добавить задачу</span>
-                    <span id='break'>|</span>
-                    <span className='' id='ru' onClick={authorize}>Авторизация</span>
+                    <StyledNavButtons>
+                        <StyledButtonSwitch onClick={addTask}>Добавить задачу</StyledButtonSwitch>
+                        <span id='break'>|</span>
+                        <StyledButtonSwitch onClick={authorize}> {authorizeStatus ? 'Выйти' : 'Войти' }</StyledButtonSwitch>
+                    </StyledNavButtons>
                 </nav>
-            </NavWrapper>
+            </StyledNavWrapper>
 
             <NavWrapper>
                 <nav>

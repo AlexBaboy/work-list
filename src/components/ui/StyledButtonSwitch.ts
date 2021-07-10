@@ -5,7 +5,7 @@ export interface StyledLanSwitchProps {
     textDecoration? : string
 }
 
-export const StyledLanSwitch = styled.span<StyledLanSwitchProps>`
+export const StyledButtonSwitch = styled.span<StyledLanSwitchProps>`
   font-size: ${(props) => props.fontSize || "16px"};
   text-decoration: ${(props) => props.textDecoration || "none"};
   &:hover {
