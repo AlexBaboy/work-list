@@ -8,6 +8,7 @@ export interface StyledLanSwitchProps {
 export const StyledButtonSwitch = styled.span<StyledLanSwitchProps>`
   font-size: ${(props) => props.fontSize || "16px"};
   text-decoration: ${(props) => props.textDecoration || "none"};
+  color: ${(props) => props.color || "gray"};
   &:hover {
     text-decoration: underline;
     cursor: pointer;
@@ -15,5 +16,9 @@ export const StyledButtonSwitch = styled.span<StyledLanSwitchProps>`
   &.active-lan {
     font-weight: bold;
     text-decoration: underline;
+  }
+  & a {
+    text-decoration: none;
+    color: gray;
   }
 `

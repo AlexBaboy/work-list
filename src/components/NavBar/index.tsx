@@ -12,6 +12,8 @@ import {StyledNavWrapper} from "../ui/StyledNavWrapper";
 import {useSelector} from "react-redux";
 import {getAuthorized} from "../Selectors";
 
+import {NavLink} from "react-router-dom";
+
 const NavWrapper = styled.div`
   display: flex;
   padding-top: 2rem;
@@ -52,7 +54,9 @@ export const NavBar: React.FC = () => {
             <StyledNavWrapper>
                 <nav>
                     <StyledNavButtons>
-                        <StyledButtonSwitch onClick={addTask}>Добавить задачу</StyledButtonSwitch>
+                        <StyledButtonSwitch>
+                            <NavLink to='/addTask'>Добавить задачу</NavLink>
+                        </StyledButtonSwitch>
                         <span id='break'>|</span>
                         <StyledButtonSwitch onClick={authorize}> {authorizeStatus ? 'Выйти' : 'Войти' }</StyledButtonSwitch>
                     </StyledNavButtons>

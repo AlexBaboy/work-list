@@ -58,7 +58,7 @@ export const WorkList = () => {
                                             size={80}
                                             thickness={4}
                                             value={100}
-                ></CircularProgress>
+                />
             </div>
         }
 
