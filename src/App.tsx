@@ -1,5 +1,4 @@
 import React from 'react';
-import {WorkListTable} from './components/Worklist/WorkListTable';
 import './App.css';
 import {Provider} from "react-redux";
 import store from "./store";

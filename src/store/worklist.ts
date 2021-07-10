@@ -24,7 +24,6 @@ export const changePageRequest = createAsyncThunk(
 export const changeRequest = createAsyncThunk(
     "worklist/changeRequest",
     async (changedParamsRequest: IChangedParamsRequest) => {
-        console.log("changedUrl", changedParamsRequest.url);
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL!}${changedParamsRequest.url}`);
         return response?.data?.message;
     }
@@ -40,8 +39,8 @@ const workListInitialState: IWorklistState = {
     recordsOnPage: 3,
     authorized: false,
     totalTaskCount: 50,
-    sortFieldName: undefined,
-    sortDirection: undefined,
+    sortFieldName: 'id',
+    sortDirection: 'asc',
     sortIdType: undefined,
     sortUsernameType: undefined,
     sortEmailType: undefined,
@@ -118,4 +117,4 @@ const workListSlice = createSlice({
 });
 
 export default workListSlice.reducer;
-export const { setCurrentPage, setAuthorized, setSortIdType, setSortUserNameType, setSortEmailType, setSortStatusType  } = workListSlice.actions;
+export const { setAuthorized, setSortIdType, setSortUserNameType, setSortEmailType, setSortStatusType  } = workListSlice.actions;

@@ -15,4 +15,3 @@ export const getSortStatusType = (state:RootState) => state.wl.sortStatusType
 
 export const getSortFieldName = (state:RootState) => state.wl.sortFieldName
 export const getSortDirection = (state:RootState) => state.wl.sortDirection
-
