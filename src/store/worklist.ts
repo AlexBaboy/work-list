@@ -29,7 +29,6 @@ export const changeRequest = createAsyncThunk(
     }
 );
 
-
 const workListInitialState: IWorklistState = {
     list: [],
     isLoading: true,
@@ -81,7 +80,6 @@ const workListSlice = createSlice({
         builder.addCase(
             setWorklistInitial.fulfilled,
             (state, action: PayloadAction<Imessage>) => {
-                console.log("action.payload", action.payload)
                 state.list = action.payload?.tasks;
                 state.totalTaskCount = Number(action.payload?.total_task_count);
                 state.isLoading = false;
@@ -95,7 +93,6 @@ const workListSlice = createSlice({
         //onchange
         builder.addCase(changeRequest.pending, (state, action) => {
             state.isLoading = true;
-            console.log("89 action", action);
             state.sortFieldName = action.meta.arg.sortFieldName
             state.sortDirection = action.meta.arg.sortDirection
             state.currentPage = action.meta.arg.currentPage
@@ -103,7 +100,6 @@ const workListSlice = createSlice({
         builder.addCase(
             (changeRequest.fulfilled),
             (state, action: PayloadAction<Imessage>) => {
-                console.log("96 action.payload", action.payload)
                 state.list = action.payload?.tasks;
                 state.totalTaskCount = Number(action.payload?.total_task_count);
                 state.isLoading = false;

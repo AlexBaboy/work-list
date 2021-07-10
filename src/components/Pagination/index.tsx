@@ -17,13 +17,10 @@ export const Pagination = React.memo(() => {
   const paginate = useCallback(
       (pageNumber) => {
 
-          console.log("20 sortFieldName", sortFieldName)
-          console.log("20 sortDirection", sortDirection)
-
           const changedParamsRequest = getChangedUrlParams(sortFieldName, sortDirection, pageNumber.selected + 1)
           return dispatch(changeRequest( changedParamsRequest ))
       },
-      []
+      [sortFieldName, sortDirection]
   );
 
   const taskPerPage = useSelector(getRecordsCountOnPage)

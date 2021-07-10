@@ -10,10 +10,8 @@ import Avatar from "@material-ui/core/Avatar";
 import {useDispatch, useSelector} from "react-redux";
 import {
     getCurrentPage,
-    getCurrentTasks,
-    getSortDirection,
-    getSortEmailType,
-    getSortFieldName,
+    getCurrentTasks, getSortDirection,
+    getSortEmailType, getSortFieldName,
     getSortIdType,
     getSortStatusType,
     getSortUserNameType
@@ -40,6 +38,21 @@ const useStyles = makeStyles((theme) =>
         table: {
             minWidth: 650,
         },
+        cellId: {
+            width: '10%'
+        },
+        cellName: {
+            width: '20%'
+        },
+        cellEmail: {
+            width: '20%'
+        },
+        cellStatus: {
+            width: '10%'
+        },
+        cellText: {
+            width: '40%'
+        },
         arrow : {
             cursor: 'pointer',
             width: '50px',
@@ -55,6 +68,8 @@ export const WorkListTable = () => {
     const worklist = useSelector(getCurrentTasks);
 
     const currentPage = useSelector(getCurrentPage)
+    const sortFieldName = useSelector(getSortFieldName)
+    const sortDirection = useSelector(getSortDirection)
 
     const titleValue = (type: string = 'asc') => {
         return 'сортировать по ' +  (type === 'asc' ? ' убыванию' : 'возрастанию')
@@ -95,29 +110,29 @@ export const WorkListTable = () => {
             <Table className={classes.table} aria-label="contacts table">
                 <TableHead className="table-head">
                     <TableRow>
-                        <TableCell><b>ID</b>
+                        <TableCell className={classes.cellId}><b>ID</b>
                             {sortIdType === 'desc' ?
                                 <ArrowDropDownIcon titleAccess={titleValue(sortIdType)}  className={classes.arrow}  onClick={ () => sortField('id','asc')} />
                                 :
                                 <ArrowDropUpIcon titleAccess={titleValue(sortIdType)} className={classes.arrow} onClick={ () => sortField('id', 'desc')} />
                             }
                         </TableCell>
-                        <TableCell><b>Имя пользователя</b>
+                        <TableCell className={classes.cellName}><b>Имя пользователя</b>
                             {sortUserNameType === 'desc' ?
                                 <ArrowDropDownIcon titleAccess={titleValue(sortUserNameType)} className={classes.arrow}  onClick={ () => sortField('username','asc')} />
                                 :
                                 <ArrowDropUpIcon titleAccess={titleValue(sortUserNameType)} className={classes.arrow}  onClick={ () => sortField('username', 'desc')} />
                             }
                         </TableCell>
-                        <TableCell><b>Email</b>
+                        <TableCell className={classes.cellEmail}><b>Email</b>
                             {sortEmailType === 'desc' ?
                                 <ArrowDropDownIcon titleAccess={titleValue(sortEmailType)} className={classes.arrow}  onClick={ () => sortField('email','asc')} />
                                 :
                                 <ArrowDropUpIcon titleAccess={titleValue(sortEmailType)} className={classes.arrow}  onClick={ () => sortField('email', 'desc')} />
                             }
                         </TableCell>
-                        <TableCell><b>Текст задачи</b></TableCell>
-                        <TableCell><b>Статус</b>
+                        <TableCell className={classes.cellText}><b>Текст задачи</b></TableCell>
+                        <TableCell className={classes.cellStatus}><b>Статус</b>
                             {sortStatusType === 'desc' ?
                                 <ArrowDropDownIcon titleAccess={titleValue(sortStatusType)} className={classes.arrow}  onClick={ () => sortField('status','asc')} />
                                 :
