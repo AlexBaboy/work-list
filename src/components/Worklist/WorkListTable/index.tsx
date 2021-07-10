@@ -29,7 +29,7 @@ import {
     setSortStatusType,
     changeRequest
 } from "../../../store/worklist";
-import {IChangedParamsRequest} from "../../../interfaces/IChangedParamsRequest";
+
 import {getChangedUrlParams} from "../../../functions";
 
 const useStyles = makeStyles((theme) =>
@@ -54,7 +54,6 @@ export const WorkListTable = () => {
     const classes = useStyles();
     const worklist = useSelector(getCurrentTasks);
 
-    const sortDirection = useSelector(getSortDirection)
     const currentPage = useSelector(getCurrentPage)
 
     const titleValue = (type: string = 'asc') => {
@@ -72,27 +71,23 @@ export const WorkListTable = () => {
         switch(name) {
             case 'id':
                 dispatch(setSortIdType(type))
-                changeParamsRequest('id', type)
                 break;
             case 'username':
                 dispatch(setSortUserNameType(type))
-                changeParamsRequest('username', type)
                 break;
             case 'email':
                 dispatch(setSortEmailType(type))
-                changeParamsRequest('email', type)
                 break;
             case 'status':
-                return dispatch(setSortStatusType(type))
-                changeParamsRequest('status', type)
+                dispatch(setSortStatusType(type))
                 break;
         }
+        changeParamsRequest(name, type)
         return false
     }
 
     const changeParamsRequest = (name: string, type:string = 'asc') => {
-        const changedParamsRequest = getChangedUrlParams(name, type, currentPage)
-        return dispatch(changeRequest( changedParamsRequest ))
+        return dispatch(changeRequest( getChangedUrlParams(name, type, currentPage) ))
     }
 
     return (

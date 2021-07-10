@@ -99,6 +99,7 @@ const workListSlice = createSlice({
             console.log("89 action", action);
             state.sortFieldName = action.meta.arg.sortFieldName
             state.sortDirection = action.meta.arg.sortDirection
+            state.currentPage = action.meta.arg.currentPage
         });
         builder.addCase(
             (changeRequest.fulfilled),

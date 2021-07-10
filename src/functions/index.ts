@@ -1,5 +1,4 @@
 import {IChangedParamsRequest} from "../interfaces/IChangedParamsRequest";
-import {changeRequest} from "../store/worklist";
 
 export const getChangedUrlParams = (name: string | undefined, type:string | undefined, currentPage: number = 1) => {
 
@@ -14,7 +13,8 @@ export const getChangedUrlParams = (name: string | undefined, type:string | unde
     return changedParamsRequest
 }
 
-export const getChangedUrl = (name: string | undefined, type:string  | undefined, currentPage: number = 1) => {
+export const getChangedUrl = (name: string | undefined, type:string | undefined, currentPage: number = 1) => {
+
     let url = ''
     if(name && type)
         url = `&sort_field=${name}&sort_direction=${type}`
