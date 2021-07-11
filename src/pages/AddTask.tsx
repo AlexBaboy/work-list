@@ -37,12 +37,26 @@ export const AddTask: React.FC = () => {
 
     const dispatch = useDispatch();
 
-    const onSubmit = (data: any) => {
+    const onSubmit = async (data: any) => {
         const form = new FormData();
         form.append("username", data.username);
         form.append("email", data.email);
         form.append("text", data.text);
-        return dispatch(addTaskRequest( form ))
+        //return dispatch(addTaskRequest( form ))
+        const resultAction = await dispatch(addTaskRequest( form ))
+
+        console.log("resultAction", resultAction)
+
+        if (addTaskRequest.fulfilled.match(resultAction)) {
+
+        } else {
+            if (resultAction.payload) {
+                // Being that we passed in ValidationErrors to rejectType in `createAsyncThunk`, those types will be available here.
+                //formikHelpers.setErrors(resultAction.payload.field_errors)
+            } else {
+                //showToast('error', `Update failed: ${resultAction.error}`)
+            }
+        }
     };
 
     React.useEffect(() => {
