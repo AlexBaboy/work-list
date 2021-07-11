@@ -3,20 +3,13 @@ import axios from "axios";
 import {IWorklistState} from "../interfaces/IWorklistState";
 import {Imessage} from "../interfaces/Imessage";
 import {IChangedParamsRequest} from "../interfaces/IChangedParamsRequest";
+import {ITask} from "../interfaces/ITask";
 
 export const setWorklistInitial = createAsyncThunk(
     "worklist/setWorkListInitial",
     async () => {
-        const response = await axios.get(process.env.REACT_APP_BASE_URL!);
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL!}?developer=Alex`);
         console.log(response?.data?.message?.tasks)
-        return response?.data?.message;
-    }
-);
-
-export const changePageRequest = createAsyncThunk(
-    "worklist/changePageRequest",
-    async (currentPage: number) => {
-        const response = await axios.get(`${process.env.REACT_APP_BASE_URL!}&page=${currentPage}`);
         return response?.data?.message;
     }
 );
@@ -24,7 +17,18 @@ export const changePageRequest = createAsyncThunk(
 export const changeRequest = createAsyncThunk(
     "worklist/changeRequest",
     async (changedParamsRequest: IChangedParamsRequest) => {
-        const response = await axios.get(`${process.env.REACT_APP_BASE_URL!}${changedParamsRequest.url}`);
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL!}?developer=Alex${changedParamsRequest.url}`);
+        return response?.data?.message;
+    }
+);
+
+export const addTaskRequest = createAsyncThunk(
+    "worklist/addTaskRequest",
+    async (newTask: FormData) => {
+
+        console.log("29 newTask", newTask)
+
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL!}create?developer=Alex`, newTask);
         return response?.data?.message;
     }
 );
@@ -106,6 +110,23 @@ const workListSlice = createSlice({
             }
         );
         builder.addCase(changeRequest.rejected, (state, action) => {
+            state.isError = true;
+            state.exceptionText = action.error?.toString();
+        });
+
+        //addTask
+        builder.addCase(addTaskRequest.pending, (state, action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(
+            (addTaskRequest.fulfilled),
+            (state, action: PayloadAction<Imessage>) => {
+                state.list = action.payload?.tasks;
+                state.totalTaskCount = Number(action.payload?.total_task_count);
+                state.isLoading = false;
+            }
+        );
+        builder.addCase(addTaskRequest.rejected, (state, action) => {
             state.isError = true;
             state.exceptionText = action.error?.toString();
         });

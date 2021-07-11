@@ -10,6 +10,8 @@ import { StyledEmail } from "../components/ui/StyledEmail";
 import { StyledTextarea } from "../components/ui/StyledTextarea";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import {addTaskRequest, changeRequest} from "../store/worklist";
+import {useDispatch} from "react-redux";
 
 export const AddTask: React.FC = () => {
 
@@ -33,8 +35,17 @@ export const AddTask: React.FC = () => {
         resolver: yupResolver(schema),
     });
 
+    const dispatch = useDispatch();
+
     const onSubmit = (data: any) => {
         console.log("sended:", data);
+
+        var form = new FormData();
+        form.append("username", data.username);
+        form.append("email", data.email);
+        form.append("text", data.text);
+
+        return dispatch(addTaskRequest( form ))
     };
 
     return (
@@ -49,7 +60,7 @@ export const AddTask: React.FC = () => {
                             color={"black"}
                             fontSize={"16px"}
                             type="text"
-                            placeholder="введите логин"
+                            placeholder="введите имя пользователя"
                             {...register("username")}
                         />
                         {errors.username && (

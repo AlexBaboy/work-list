@@ -36,6 +36,8 @@ export const NavBar: React.FC = () => {
         })
     );
 
+    console.log("39 hash", window.location.hash)
+
     const authorizeStatus = useSelector(getAuthorized)
 
     const addTask = () => {
