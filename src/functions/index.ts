@@ -23,3 +23,16 @@ export const getChangedUrl = (name: string | undefined, type:string | undefined,
 
     return url
 }
+
+export const getStatusNameByCode = (code:number) => {
+    switch(code) {
+        case 0:
+            return 'не выполнена'
+        case 1:
+            return 'не выполнена, отредактирована админом'
+        case 10:
+            return 'выполнена'
+        case 11:
+            return 'отредактирована админом и выполнена'
+    }
+}

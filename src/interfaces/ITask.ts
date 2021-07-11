@@ -3,6 +3,6 @@ export interface ITask {
     username: string;
     email: string;
     text: string;
-    status?: boolean;
+    status: number;
     image_path?: string;
 }

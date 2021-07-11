@@ -5,6 +5,7 @@ export interface IWorklistState {
     isLoading: boolean;
     isError: boolean;
     currentPage: number;
+    currentUrl: string;
     exceptionText: string;
     recordsOnPage: number;
     authorized: boolean;

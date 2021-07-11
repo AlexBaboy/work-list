@@ -8,6 +8,7 @@ export const getCurrentTasks = (state:RootState) => state.wl.list
 export const getTotalTaskCount = (state:RootState) => state.wl.totalTaskCount
 export const getRecordsCountOnPage = (state:RootState) => state.wl.recordsOnPage
 export const getCurrentPage = (state:RootState) => state.wl.currentPage
+export const getCurrentUrl = (state:RootState) => state.wl.currentUrl
 
 export const getSortIdType = (state:RootState) => state.wl.sortIdType
 export const getSortUserNameType = (state:RootState) => state.wl.sortUsernameType

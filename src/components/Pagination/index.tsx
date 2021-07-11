@@ -37,7 +37,7 @@ export const Pagination = React.memo(() => {
             breakClassName={'break-me'}
             pageCount={totalPageCount}
             marginPagesDisplayed={2}
-            pageRangeDisplayed={5}
+            pageRangeDisplayed={10}
             onPageChange={paginate}
             containerClassName={'pagination'}
             activeClassName={'active'}

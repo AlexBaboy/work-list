@@ -28,7 +28,7 @@ import {
     changeRequest
 } from "../../../store/worklist";
 
-import {getChangedUrlParams} from "../../../functions";
+import {getChangedUrlParams, getStatusNameByCode} from "../../../functions";
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -58,6 +58,11 @@ const useStyles = makeStyles((theme) =>
             width: '50px',
             height: '50px',
             margin: '-20px 0'
+        },
+        userName: {
+            display: 'flex',
+            gap: '2rem',
+            alignItems: 'center'
         }
     })
 );
@@ -146,11 +151,17 @@ export const WorkListTable = () => {
                                 {todo.id}
                             </TableCell>
                             <TableCell component="th" scope="row">
-                                <Avatar
-                                    alt={todo.username}
-                                    src={todo.image_path}
-                                />
-                                {todo.username}
+                                <div className={classes.userName}>
+                                    <div>
+                                        <Avatar
+                                            alt={todo.username}
+                                            src={todo.image_path}
+                                        />
+                                    </div>
+                                    <div>
+                                        {todo.username}
+                                    </div>
+                                </div>
                             </TableCell>
                             <TableCell>
                                 {todo.email}
@@ -159,7 +170,7 @@ export const WorkListTable = () => {
                                 {todo.text}
                             </TableCell>
                             <TableCell>
-                                {todo.status}
+                                { getStatusNameByCode(todo.status) }
                             </TableCell>
                         </TableRow>
                     ))}

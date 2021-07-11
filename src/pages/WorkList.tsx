@@ -1,12 +1,11 @@
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {RootState} from "../store";
 import { Pagination } from "../components/Pagination";
 import Container from "@material-ui/core/Container";
 import {WorkListTable} from "../components/Worklist/WorkListTable";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
-import {setWorklistInitial} from "../store/worklist";
+import {setCurrentUrl, setWorklistInitial} from "../store/worklist";
 import styles from "../components/ui/styles.module.css";
 import {getErrorStatus, getLoadingStatus} from "../components/Selectors";
 
@@ -43,6 +42,7 @@ export const WorkList = () => {
     const dispatch = useDispatch();
     React.useEffect(() => {
         dispatch(setWorklistInitial());
+        dispatch(setCurrentUrl('/'))
     }, []);
 
     if (isError)

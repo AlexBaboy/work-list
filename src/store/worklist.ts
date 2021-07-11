@@ -25,9 +25,6 @@ export const changeRequest = createAsyncThunk(
 export const addTaskRequest = createAsyncThunk(
     "worklist/addTaskRequest",
     async (newTask: FormData) => {
-
-        console.log("29 newTask", newTask)
-
         const response = await axios.post(`${process.env.REACT_APP_BASE_URL!}create?developer=Alex`, newTask);
         return response?.data?.message;
     }
@@ -47,7 +44,8 @@ const workListInitialState: IWorklistState = {
     sortIdType: undefined,
     sortUsernameType: undefined,
     sortEmailType: undefined,
-    sortStatusType: undefined
+    sortStatusType: undefined,
+    currentUrl: "/"
 };
 
 const workListSlice = createSlice({
@@ -72,6 +70,9 @@ const workListSlice = createSlice({
         },
         setSortStatusType(state, action: PayloadAction<string>) {
             state.sortStatusType = action.payload
+        },
+        setCurrentUrl(state, action: PayloadAction<string>) {
+            state.currentUrl = action.payload
         },
     },
 
@@ -134,4 +135,4 @@ const workListSlice = createSlice({
 });
 
 export default workListSlice.reducer;
-export const { setAuthorized, setSortIdType, setSortUserNameType, setSortEmailType, setSortStatusType  } = workListSlice.actions;
+export const { setAuthorized, setSortIdType, setSortUserNameType, setSortEmailType, setSortStatusType, setCurrentUrl } = workListSlice.actions;
