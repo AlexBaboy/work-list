@@ -17,7 +17,7 @@ export const Login: React.FC = () => {
   const errorPasswordText = 'поле ПАРОЛЬ является обязательным'
 
   const schema = yup.object({
-    login: yup.string().required(errorLoginText),
+    username : yup.string().required(errorLoginText),
     password: yup.string().required(errorPasswordText)
   });
 
@@ -35,7 +35,7 @@ export const Login: React.FC = () => {
 
   const onSubmit = async (data: any) => {
     const form = new FormData();
-    form.append("login", data.login);
+    form.append("username", data.login);
     form.append("password", data.password);
 
     try {
@@ -61,14 +61,14 @@ export const Login: React.FC = () => {
 
             <StyledP>Логин</StyledP>
             <StyledText
-              border={errors.login ? "2px solid red" : ""}
+              border={errors.username  ? "2px solid red" : ""}
               color={"black"}
               fontSize={"16px"}
               type="text"
               placeholder="введите логин"
-              {...register("login")}
+              {...register("username ")}
             />
-            {errors.login && (
+            {errors.username  && (
               <i>
                 <b>{errorLoginText}</b>
               </i>

@@ -46,9 +46,9 @@ export const AddTask: React.FC = () => {
 
         try {
             const resultAction = await dispatch(addTaskRequest( form ))
-                //.then()
 
             console.log("resultAction", resultAction)
+            //console.log("resultAction.payload", resultAction.payload)
             //const originalPromiseResult = unwrapResult(resultAction)
             // handle result here
         } catch (rejectedValueOrSerializedError) {

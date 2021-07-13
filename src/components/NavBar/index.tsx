@@ -13,6 +13,7 @@ import {useSelector} from "react-redux";
 import {getAuthorized, getCurrentUrl} from "../Selectors";
 
 import {NavLink} from "react-router-dom";
+import {useHistory} from "react-router";
 
 const NavWrapper = styled.div`
   display: flex;
@@ -39,15 +40,50 @@ export const NavBar: React.FC = () => {
     const authorizeStatus = useSelector(getAuthorized)
     const currentUrl = useSelector(getCurrentUrl)
 
-    const linkToUrl = (currentUrl === '/') ? '/addTask' : '/'
-    const linkToText = (currentUrl === '/') ? 'Добавить задачу' : 'Список задач'
-    const title = (currentUrl === '/') ? 'Список задач' : 'Добавление новой задачи'
+    let linkToUrl = '/addTask'
+    let linkToText = '/Добавить задачу'
+    let title = 'Список задач'
+
+    console.log("47 currentUrl = " + currentUrl)
+
+    switch (currentUrl) {
+        case '/':
+            linkToUrl = '/addTask'
+            linkToText = 'Добавить задачу'
+            title = 'Список задач'
+            break
+        case '/addTask':
+            linkToUrl = '/'
+            linkToText = 'Список задач'
+            title = 'Добавление новой задачи'
+            break
+        case '/login':
+            console.log("59 !")
+            linkToUrl = '/addTask'
+            linkToText = 'Добавить задачу'
+            title = 'Авторизация пользователя'
+            break
+        break
+    }
+
+
+    const history = useHistory();
 
     const authorize = () => {
         console.log("authorize")
+
+        if(!authorizeStatus)
+            history.push({
+                pathname: '/login',
+                //search: '?query=abc',
+                state: { detail: authorizeStatus }
+            });
+
     }
 
     const classes = useStyles();
+
+
 
     return (
         <Container>
@@ -56,7 +92,8 @@ export const NavBar: React.FC = () => {
                 <nav>
                     <StyledNavButtons>
                         <StyledButtonSwitch>
-                            <NavLink to={linkToUrl}>{linkToText}</NavLink>
+                            {linkToUrl &&
+                            <NavLink to={linkToUrl}>{linkToText}</NavLink>}
                         </StyledButtonSwitch>
                         <span id='break'>|</span>
                         <StyledButtonSwitch onClick={authorize}> {authorizeStatus ? 'Выйти' : 'Войти' }</StyledButtonSwitch>
