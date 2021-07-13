@@ -45,10 +45,11 @@ export const AddTask: React.FC = () => {
         form.append("text", data.text);
 
         try {
-            const resultAction = await dispatch(addTaskRequest( form )).then()
+            const resultAction = await dispatch(addTaskRequest( form ))
+                //.then()
 
             console.log("resultAction", resultAction)
-            const originalPromiseResult = unwrapResult(resultAction)
+            //const originalPromiseResult = unwrapResult(resultAction)
             // handle result here
         } catch (rejectedValueOrSerializedError) {
             // handle error here

@@ -8,6 +8,8 @@ import { StyledForm } from "../components/ui/StyledForm";
 import { StyledSubmit } from "../components/ui/StyledSubmit";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import {loginRequest, setCurrentUrl} from "../store/worklist";
+import {useDispatch} from "react-redux";
 
 export const Login: React.FC = () => {
 
@@ -15,7 +17,7 @@ export const Login: React.FC = () => {
   const errorPasswordText = 'поле ПАРОЛЬ является обязательным'
 
   const schema = yup.object({
-    subject: yup.string().required(errorLoginText),
+    login: yup.string().required(errorLoginText),
     password: yup.string().required(errorPasswordText)
   });
 
@@ -29,9 +31,25 @@ export const Login: React.FC = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: any) => {
-    console.log("sended:", data);
+  const dispatch = useDispatch();
+
+  const onSubmit = async (data: any) => {
+    const form = new FormData();
+    form.append("login", data.login);
+    form.append("password", data.password);
+
+    try {
+      const resultAction = await dispatch(loginRequest( form ))
+
+      console.log("resultAction", resultAction)
+    } catch (rejectedValueOrSerializedError) {
+      // handle error here
+    }
   };
+
+  React.useEffect(() => {
+    dispatch(setCurrentUrl('/login'))
+  },[])
 
   return (
     <Suspense fallback={"loading"}>

@@ -30,6 +30,14 @@ export const addTaskRequest = createAsyncThunk(
     }
 );
 
+export const loginRequest = createAsyncThunk(
+    "worklist/loginRequest",
+    async (loginData: FormData) => {
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL!}login/?developer=Alex`, loginData);
+        return response?.data;
+    }
+);
+
 const workListInitialState: IWorklistState = {
     list: [],
     isLoading: true,
@@ -126,6 +134,20 @@ const workListSlice = createSlice({
             }
         );
         builder.addCase(addTaskRequest.rejected, (state, action) => {
+            state.isError = true;
+            state.exceptionText = action.error?.toString();
+        });
+
+        // login
+        builder.addCase(loginRequest.pending, (state, action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(loginRequest.fulfilled,
+            (state, action: PayloadAction<Imessage>) => {
+                state.isLoading = false;
+            }
+        );
+        builder.addCase(loginRequest.rejected, (state, action) => {
             state.isError = true;
             state.exceptionText = action.error?.toString();
         });
