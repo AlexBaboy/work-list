@@ -12,6 +12,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {addTaskRequest, changeRequest, setCurrentUrl} from "../store/worklist";
 import {useDispatch} from "react-redux";
+import {unwrapResult} from "@reduxjs/toolkit";
 
 export const AddTask: React.FC = () => {
 
@@ -42,12 +43,18 @@ export const AddTask: React.FC = () => {
         form.append("username", data.username);
         form.append("email", data.email);
         form.append("text", data.text);
-        //return dispatch(addTaskRequest( form ))
-        const resultAction = await dispatch(addTaskRequest( form ))
 
-        console.log("resultAction", resultAction)
+        try {
+            const resultAction = await dispatch(addTaskRequest( form )).then()
 
-        if (addTaskRequest.fulfilled.match(resultAction)) {
+            console.log("resultAction", resultAction)
+            const originalPromiseResult = unwrapResult(resultAction)
+            // handle result here
+        } catch (rejectedValueOrSerializedError) {
+            // handle error here
+        }
+
+        /*if (addTaskRequest.fulfilled.match(resultAction)) {
 
         } else {
             if (resultAction.payload) {
@@ -56,7 +63,7 @@ export const AddTask: React.FC = () => {
             } else {
                 //showToast('error', `Update failed: ${resultAction.error}`)
             }
-        }
+        }*/
     };
 
     React.useEffect(() => {

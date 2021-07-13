@@ -26,7 +26,7 @@ export const addTaskRequest = createAsyncThunk(
     "worklist/addTaskRequest",
     async (newTask: FormData) => {
         const response = await axios.post(`${process.env.REACT_APP_BASE_URL!}create?developer=Alex`, newTask);
-        return response?.data?.message;
+        return response?.data;
     }
 );
 
@@ -122,8 +122,6 @@ const workListSlice = createSlice({
         builder.addCase(
             (addTaskRequest.fulfilled),
             (state, action: PayloadAction<Imessage>) => {
-                state.list = action.payload?.tasks;
-                state.totalTaskCount = Number(action.payload?.total_task_count);
                 state.isLoading = false;
             }
         );
