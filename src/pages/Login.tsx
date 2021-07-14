@@ -8,7 +8,7 @@ import { StyledForm } from "../components/ui/StyledForm";
 import { StyledSubmit } from "../components/ui/StyledSubmit";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {loginRequest, setCurrentUrl, setToken} from "../store/worklist";
+import {loginRequest, setAuthorized, setCurrentUrl, setToken} from "../store/worklist";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -56,8 +56,21 @@ export const Login: React.FC = () => {
           progress: undefined
         })
       } else {
-        if( resultAction.payload.message )
+        if( resultAction.payload.message ) {
           dispatch(setToken( resultAction.payload.message.token ))
+          dispatch(setAuthorized( true ))
+
+          toast("Авторизация прошла успешно!", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined
+          })
+        }
+
       }
 
     } catch (rejectedValueOrSerializedError) {
