@@ -55,7 +55,7 @@ export const EditTask: React.FC<{id: number}> = ({id}) => {
     };
 
     React.useEffect(() => {
-        dispatch(setCurrentUrl(`edit/${id}``))
+        dispatch(setCurrentUrl(`edit/${id}`))
     },[])
 
     return (

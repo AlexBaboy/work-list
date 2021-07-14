@@ -31,6 +31,14 @@ export const addTaskRequest = createAsyncThunk(
     }
 );
 
+export const addTaskRequest = createAsyncThunk(
+    "worklist/addTaskRequest",
+    async (editedTask: FormData) => {
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL!}?developer=Alex/edit/${editedTask.taskId}`, editedTask);
+        return response?.data;
+    }
+);
+
 export const loginRequest = createAsyncThunk(
     "worklist/loginRequest",
     async (loginData: FormData) => {
