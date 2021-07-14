@@ -11,10 +11,10 @@ import { StyledTextarea } from "../components/ui/StyledTextarea";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {addTaskRequest, setCurrentUrl} from "../store/worklist";
-import {unwrapResult} from "@reduxjs/toolkit";
+
 import {useAppDispatch} from "../store";
 
-export const AddTask: React.FC = () => {
+export const EditTask: React.FC<{id: number}> = ({id}) => {
 
     const errorName = 'поле ИМЯ является обязательным'
     const errorEmail = 'поле EMAIL некорректно'
@@ -52,20 +52,10 @@ export const AddTask: React.FC = () => {
             // handle error here
         }
 
-        /*if (addTaskRequest.fulfilled.match(resultAction)) {
-
-        } else {
-            if (resultAction.payload) {
-                // Being that we passed in ValidationErrors to rejectType in `createAsyncThunk`, those types will be available here.
-                //formikHelpers.setErrors(resultAction.payload.field_errors)
-            } else {
-                //showToast('error', `Update failed: ${resultAction.error}`)
-            }
-        }*/
     };
 
     React.useEffect(() => {
-        dispatch(setCurrentUrl('/addTask'))
+        dispatch(setCurrentUrl(`edit/${id}``))
     },[])
 
     return (

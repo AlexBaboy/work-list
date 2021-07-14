@@ -60,7 +60,7 @@ export const Login: React.FC = () => {
           dispatch(setToken( resultAction.payload.message.token ))
           dispatch(setAuthorized( true ))
 
-          toast("Авторизация прошла успешно!", {
+          toast.info("Авторизация прошла успешно!", {
             position: "top-center",
             autoClose: 5000,
             hideProgressBar: false,

@@ -17,7 +17,6 @@ import {
     getSortUserNameType
 } from "../../Selectors";
 
-import {ArrowWrapper} from "../../ArrowWrapper";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import {

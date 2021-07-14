@@ -10,10 +10,13 @@ import {StyledNavButtons} from "../ui/StyledNavButtons";
 import {StyledButtonSwitch} from "../ui/StyledButtonSwitch";
 import {StyledNavWrapper} from "../ui/StyledNavWrapper";
 import {useSelector} from "react-redux";
-import {getAuthorized, getCurrentUrl} from "../Selectors";
+import {getAuthorized, getCurrentUrl, getToken} from "../Selectors";
 
 import {NavLink} from "react-router-dom";
 import {useHistory} from "react-router";
+
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 const NavWrapper = styled.div`
   display: flex;
@@ -39,6 +42,7 @@ export const NavBar: React.FC = () => {
 
     const authorizeStatus = useSelector(getAuthorized)
     const currentUrl = useSelector(getCurrentUrl)
+    const token = useSelector(getToken)
 
     let linkToUrl = '/addTask'
     let linkToText = '/Добавить задачу'
@@ -78,12 +82,30 @@ export const NavBar: React.FC = () => {
                 //search: '?query=abc',
                 state: { detail: authorizeStatus }
             });
+        else {
+            confirmAlert({
+                title: 'Выход',
+                message: 'Выйти из режима администратора?',
+                buttons: [
+                    {
+                        label: 'да',
+                        onClick: () => logout()
+                    },
+                    {
+                        label: 'нет',
+                        onClick: () => console.log("close!")
+                    }
+                ]
+            });
+        }
+    }
 
+    const logout = () => {
+        console.log("logout!")
+        console.log("token = " + token)
     }
 
     const classes = useStyles();
-
-
 
     return (
         <Container>
