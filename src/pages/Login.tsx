@@ -8,8 +8,12 @@ import { StyledForm } from "../components/ui/StyledForm";
 import { StyledSubmit } from "../components/ui/StyledSubmit";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {loginRequest, setCurrentUrl} from "../store/worklist";
-import {useDispatch} from "react-redux";
+import {loginRequest, setCurrentUrl, setToken} from "../store/worklist";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import {useAppDispatch} from "../store";
 
 export const Login: React.FC = () => {
 
@@ -31,17 +35,31 @@ export const Login: React.FC = () => {
     resolver: yupResolver(schema),
   });
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onSubmit = async (data: any) => {
     const form = new FormData();
-    form.append("username", data.login);
+    form.append("username", data.username);
     form.append("password", data.password);
 
     try {
       const resultAction = await dispatch(loginRequest( form ))
 
-      console.log("resultAction", resultAction)
+      if( resultAction.payload.status === 'error' ) {
+        toast.error(resultAction.payload.message.username ? resultAction.payload.message.username : resultAction.payload.message.password, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined
+        })
+      } else {
+        if( resultAction.payload.message )
+          dispatch(setToken( resultAction.payload.message.token ))
+      }
+
     } catch (rejectedValueOrSerializedError) {
       // handle error here
     }
@@ -66,7 +84,8 @@ export const Login: React.FC = () => {
               fontSize={"16px"}
               type="text"
               placeholder="введите логин"
-              {...register("username ")}
+              {...register("username")}
+                onChange={(e)=> console.log(isValid)}
             />
             {errors.username  && (
               <i>
@@ -82,6 +101,7 @@ export const Login: React.FC = () => {
                 type="password"
                 placeholder="введите пароль"
                 {...register("password")}
+                onChange={(e)=> console.log(isValid)}
             />
             {errors.password && (
                 <i>
@@ -95,6 +115,9 @@ export const Login: React.FC = () => {
             >
               Авторизация
             </StyledSubmit>
+
+            <ToastContainer />
+
           </StyledForm>
         </div>
       </Container>

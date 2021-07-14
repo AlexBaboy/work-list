@@ -10,9 +10,9 @@ import { StyledEmail } from "../components/ui/StyledEmail";
 import { StyledTextarea } from "../components/ui/StyledTextarea";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {addTaskRequest, changeRequest, setCurrentUrl} from "../store/worklist";
-import {useDispatch} from "react-redux";
+import {addTaskRequest, setCurrentUrl} from "../store/worklist";
 import {unwrapResult} from "@reduxjs/toolkit";
+import {useAppDispatch} from "../store";
 
 export const AddTask: React.FC = () => {
 
@@ -36,7 +36,7 @@ export const AddTask: React.FC = () => {
         resolver: yupResolver(schema),
     });
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const onSubmit = async (data: any) => {
         const form = new FormData();

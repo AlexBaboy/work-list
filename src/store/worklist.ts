@@ -4,6 +4,7 @@ import {IWorklistState} from "../interfaces/IWorklistState";
 import {Imessage} from "../interfaces/Imessage";
 import {IChangedParamsRequest} from "../interfaces/IChangedParamsRequest";
 import {ITask} from "../interfaces/ITask";
+import {fdatasync} from "fs";
 
 export const setWorklistInitial = createAsyncThunk(
     "worklist/setWorkListInitial",
@@ -53,7 +54,8 @@ const workListInitialState: IWorklistState = {
     sortUsernameType: undefined,
     sortEmailType: undefined,
     sortStatusType: undefined,
-    currentUrl: "/"
+    currentUrl: "/",
+    token: undefined
 };
 
 const workListSlice = createSlice({
@@ -82,6 +84,9 @@ const workListSlice = createSlice({
         setCurrentUrl(state, action: PayloadAction<string>) {
             state.currentUrl = action.payload
         },
+        setToken(state, action: PayloadAction<string>) {
+            state.token = action.payload
+        }
     },
 
     extraReducers: (builder) => {
@@ -155,4 +160,4 @@ const workListSlice = createSlice({
 });
 
 export default workListSlice.reducer;
-export const { setAuthorized, setSortIdType, setSortUserNameType, setSortEmailType, setSortStatusType, setCurrentUrl } = workListSlice.actions;
+export const { setAuthorized, setSortIdType, setSortUserNameType, setSortEmailType, setSortStatusType, setCurrentUrl, setToken } = workListSlice.actions;

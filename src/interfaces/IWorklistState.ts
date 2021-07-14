@@ -16,4 +16,5 @@ export interface IWorklistState {
     sortUsernameType: string | undefined;
     sortEmailType: string | undefined;
     sortStatusType: string | undefined;
+    token: string | undefined
 }
