@@ -9,6 +9,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Avatar from "@material-ui/core/Avatar";
 import {useDispatch, useSelector} from "react-redux";
 import {
+    getAuthorized,
     getCurrentPage,
     getCurrentTasks, getSortDirection,
     getSortEmailType, getSortFieldName,
@@ -28,6 +29,7 @@ import {
 } from "../../../store/worklist";
 
 import {getChangedUrlParams, getStatusNameByCode} from "../../../functions";
+import {useHistory} from "react-router";
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -62,6 +64,9 @@ const useStyles = makeStyles((theme) =>
             display: 'flex',
             gap: '2rem',
             alignItems: 'center'
+        },
+        editRow : {
+            cursor: 'pointer',
         }
     })
 );
@@ -70,8 +75,8 @@ export const WorkListTable = () => {
 
     const classes = useStyles();
     const worklist = useSelector(getCurrentTasks);
-
     const currentPage = useSelector(getCurrentPage)
+    const history = useHistory();
 
     const titleValue = (type: string = 'asc') => {
         return 'сортировать по ' +  (type === 'asc' ? ' убыванию' : 'возрастанию')
@@ -81,6 +86,8 @@ export const WorkListTable = () => {
     const sortUserNameType = useSelector(getSortUserNameType)
     const sortEmailType = useSelector(getSortEmailType)
     const sortStatusType = useSelector(getSortStatusType)
+
+    const authorizeStatus = useSelector(getAuthorized)
 
     const dispatch = useDispatch();
 
@@ -105,6 +112,21 @@ export const WorkListTable = () => {
 
     const changeParamsRequest = (name: string, type:string = 'asc') => {
         return dispatch(changeRequest( getChangedUrlParams(name, type, currentPage) ))
+    }
+
+
+
+    const editRecord = (id:number) => {
+
+        if(!authorizeStatus)    return false
+        console.log("114 id = " + id)
+        console.log("114 authorizeStatus = " + authorizeStatus)
+
+        history.push({
+            pathname: `/edit/${id}`,
+            //search: '?query=abc',
+            state: { detail: authorizeStatus }
+        });
     }
 
     return (
@@ -145,8 +167,12 @@ export const WorkListTable = () => {
                 </TableHead>
                 <TableBody>
                     {worklist.map((todo) => (
-                        <TableRow key={todo.id}>
-                            <TableCell>
+                        <TableRow key={todo.id}
+                                  className={ authorizeStatus ? classes.editRow : ''}
+                                  title={authorizeStatus ? 'редактировать' : ''}
+                                  onClick={()=> editRecord(todo.id!)}
+                        >
+                            <TableCell >
                                 {todo.id}
                             </TableCell>
                             <TableCell component="th" scope="row">

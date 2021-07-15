@@ -158,6 +158,7 @@ const workListSlice = createSlice({
         builder.addCase(loginRequest.fulfilled,
             (state, action: PayloadAction<Imessage>) => {
                 state.isLoading = false;
+                state.authorized = true;
             }
         );
         builder.addCase(loginRequest.rejected, (state, action) => {
