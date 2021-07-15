@@ -45,7 +45,7 @@ export const EditTask: React.FC<{id: number}> = ({id}) => {
         form.append("text", data.text);
 
         try {
-            const resultAction = await dispatch(addTaskRequest( form ))
+            const resultAction = await dispatch(editTaskRequest( form ))
             console.log("resultAction", resultAction)
 
         } catch (rejectedValueOrSerializedError) {

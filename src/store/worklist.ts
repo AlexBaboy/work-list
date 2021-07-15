@@ -31,10 +31,10 @@ export const addTaskRequest = createAsyncThunk(
     }
 );
 
-export const addTaskRequest = createAsyncThunk(
-    "worklist/addTaskRequest",
+export const editTaskRequest = createAsyncThunk(
+    "worklist/editTaskRequest",
     async (editedTask: FormData) => {
-        const response = await axios.post(`${process.env.REACT_APP_BASE_URL!}?developer=Alex/edit/${editedTask.taskId}`, editedTask);
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL!}?developer=Alex/edit/${editedTask.id}`, editedTask);
         return response?.data;
     }
 );
