@@ -1,6 +1,6 @@
 import { RootState } from "../../store";
 
-export const getAuthorized = (state:RootState) => state.wl.authorized
+export const getAuthorized = (state:RootState) => state.wl.isAdmin
 export const getToken = (state:RootState) => state.wl.token
 
 export const getLoadingStatus = (state:RootState) => state.wl.isLoading
@@ -19,3 +19,5 @@ export const getSortStatusType = (state:RootState) => state.wl.sortStatusType
 
 export const getSortFieldName = (state:RootState) => state.wl.sortFieldName
 export const getSortDirection = (state:RootState) => state.wl.sortDirection
+
+export const getCurrentTaskInitialById = (id: number) => (state:RootState) => state.wl.list.find( task => task.id === id)

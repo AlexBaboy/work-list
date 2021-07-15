@@ -54,7 +54,7 @@ const workListInitialState: IWorklistState = {
     currentPage: 1,
     exceptionText: "",
     recordsOnPage: 3,
-    authorized: false,
+    isAdmin: false,
     totalTaskCount: 50,
     sortFieldName: 'id',
     sortDirection: 'asc',
@@ -75,7 +75,7 @@ const workListSlice = createSlice({
             state.currentPage = action.payload;
         },
         setAuthorized(state, action: PayloadAction<boolean>) {
-            state.authorized = action.payload
+            state.isAdmin = action.payload
         },
         setSortIdType(state, action: PayloadAction<string>) {
             state.sortIdType = action.payload
@@ -158,7 +158,7 @@ const workListSlice = createSlice({
         builder.addCase(loginRequest.fulfilled,
             (state, action: PayloadAction<Imessage>) => {
                 state.isLoading = false;
-                state.authorized = true;
+                state.isAdmin = true;
             }
         );
         builder.addCase(loginRequest.rejected, (state, action) => {

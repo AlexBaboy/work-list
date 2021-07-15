@@ -1,5 +1,4 @@
 import React, { Suspense } from "react";
-import { StyledH2 } from "../components/ui/StyledH2";
 import Container from "@material-ui/core/Container";
 import { StyledP } from "../components/ui/StyledP";
 import { useForm } from "react-hook-form";
@@ -11,7 +10,6 @@ import { StyledTextarea } from "../components/ui/StyledTextarea";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {addTaskRequest, setCurrentUrl} from "../store/worklist";
-import {unwrapResult} from "@reduxjs/toolkit";
 import {useAppDispatch} from "../store";
 
 export const AddTask: React.FC = () => {

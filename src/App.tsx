@@ -17,10 +17,10 @@ function App() {
               <NavBar />
               <Switch>
                   <Route path="/"  component={WorkList} exact />
-                  <Route path="/login" component={Login}  exact />
-                  <Route path="/addTask" component={AddTask} exact />
-                  <Route path="/edit/:id" component={EditTask} exact />
-                  <Route path="*"  component={ErrorPage} exact />
+                  <Route path="/login" component={Login} />
+                  <Route path="/addTask" component={AddTask} />
+                  <Route path="/edit/:id" component={EditTask} />
+                  <Route path="*"  component={ErrorPage} />
               </Switch>
           </BrowserRouter>
       </Provider>

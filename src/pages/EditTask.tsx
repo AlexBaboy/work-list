@@ -13,12 +13,21 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {editTaskRequest, setCurrentUrl} from "../store/worklist";
 
-import {useAppDispatch} from "../store";
+import {RootState, useAppDispatch} from "../store";
+import {RouteComponentProps} from "react-router";
+import {useSelector} from "react-redux";
+import {getCurrentTaskInitialById, getCurrentTasks} from "../components/Selectors";
 
-export const EditTask: React.FC<{id: number}> = ({id}) => {
+export const EditTask: React.FC<RouteComponentProps<any>> = props => {
 
     const errorText = 'поле ТЕКСТ является обязательным'
     const errorStatus = 'поле СТАТУС является обязательным'
+
+    const currentTaskInitial = useSelector(getCurrentTaskInitialById(Number(props.match.params.id)))
+
+    console.log("id", Number(props.match.params.id))
+    console.log("list", useSelector(getCurrentTasks))
+    console.log("currentTaskInitial", currentTaskInitial)
 
     const schema = yup.object({
         text: yup.string().required(errorText),
@@ -54,8 +63,8 @@ export const EditTask: React.FC<{id: number}> = ({id}) => {
     };
 
     React.useEffect(() => {
-        console.log("id = " + id)
-        dispatch(setCurrentUrl(`edit/${id}`))
+        console.log("props = ", props)
+        dispatch(setCurrentUrl(`${props.match.url}`))
     },[])
 
     return (

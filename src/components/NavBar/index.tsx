@@ -18,7 +18,7 @@ import {useHistory} from "react-router";
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import {setAuthorized, setToken} from "../../store/worklist";
-import {useAppDispatch} from "../../store"; // Import css
+import {useAppDispatch} from "../../store";
 
 const NavWrapper = styled.div`
   display: flex;
@@ -42,7 +42,7 @@ export const NavBar: React.FC = () => {
         })
     );
 
-    const authorizeStatus = useSelector(getAuthorized)
+    const isAdmin = useSelector(getAuthorized)
     const currentUrl = useSelector(getCurrentUrl)
     const token = useSelector(getToken)
 
@@ -82,11 +82,11 @@ export const NavBar: React.FC = () => {
     const authorize = () => {
         console.log("authorize")
 
-        if(!authorizeStatus)
+        if(!isAdmin)
             history.push({
                 pathname: '/login',
                 //search: '?query=abc',
-                state: { detail: authorizeStatus }
+                state: { detail: isAdmin }
             });
         else {
             confirmAlert({
@@ -124,7 +124,7 @@ export const NavBar: React.FC = () => {
                             <NavLink to={linkToUrl}>{linkToText}</NavLink>}
                         </StyledButtonSwitch>
                         <span id='break'>|</span>
-                        <StyledButtonSwitch onClick={authorize}> {authorizeStatus ? 'Выйти' : 'Войти' }</StyledButtonSwitch>
+                        <StyledButtonSwitch onClick={authorize}> {isAdmin ? 'Выйти' : 'Войти' }</StyledButtonSwitch>
                     </StyledNavButtons>
                 </nav>
             </StyledNavWrapper>

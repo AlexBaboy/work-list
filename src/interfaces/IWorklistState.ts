@@ -8,7 +8,7 @@ export interface IWorklistState {
     currentUrl: string;
     exceptionText: string;
     recordsOnPage: number;
-    authorized: boolean;
+    isAdmin: boolean;
     totalTaskCount: number;
     sortFieldName: string | undefined;
     sortDirection: string | undefined;
