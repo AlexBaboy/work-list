@@ -13,7 +13,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {editTaskRequest, setCurrentUrl} from "../store/worklist";
 
-import {RootState, useAppDispatch} from "../store";
+import {useAppDispatch} from "../store";
 import {RouteComponentProps} from "react-router";
 import {useSelector} from "react-redux";
 import {getCurrentTaskInitialById, getCurrentTasks} from "../components/Selectors";

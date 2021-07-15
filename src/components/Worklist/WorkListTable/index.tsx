@@ -78,6 +78,8 @@ export const WorkListTable = () => {
     const currentPage = useSelector(getCurrentPage)
     const history = useHistory();
 
+    console.log("worklist", worklist)
+
     const titleValue = (type: string = 'asc') => {
         return 'сортировать по ' +  (type === 'asc' ? ' убыванию' : 'возрастанию')
     }
@@ -114,8 +116,6 @@ export const WorkListTable = () => {
         return dispatch(changeRequest( getChangedUrlParams(name, type, currentPage) ))
     }
 
-
-
     const editRecord = (id:number) => {
 
         if(!authorizeStatus)    return false
@@ -124,7 +124,6 @@ export const WorkListTable = () => {
 
         history.push({
             pathname: `/edit/${id}`,
-            //search: '?query=abc',
             state: { detail: authorizeStatus }
         });
     }
