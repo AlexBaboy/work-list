@@ -34,7 +34,7 @@ export const addTaskRequest = createAsyncThunk(
 export const editTaskRequest = createAsyncThunk(
     "worklist/editTaskRequest",
     async (editedTask: FormData) => {
-        const response = await axios.post(`${process.env.REACT_APP_BASE_URL!}?developer=Alex/edit/${editedTask.id}`, editedTask);
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL!}?developer=Alex/edit/${editedTask}`, editedTask);
         return response?.data;
     }
 );
@@ -92,7 +92,7 @@ const workListSlice = createSlice({
         setCurrentUrl(state, action: PayloadAction<string>) {
             state.currentUrl = action.payload
         },
-        setToken(state, action: PayloadAction<string>) {
+        setToken(state, action: PayloadAction<string | undefined>) {
             state.token = action.payload
         }
     },

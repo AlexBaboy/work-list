@@ -16,7 +16,9 @@ import {NavLink} from "react-router-dom";
 import {useHistory} from "react-router";
 
 import { confirmAlert } from 'react-confirm-alert'; // Import
-import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import {setAuthorized, setToken} from "../../store/worklist";
+import {useAppDispatch} from "../../store"; // Import css
 
 const NavWrapper = styled.div`
   display: flex;
@@ -45,7 +47,7 @@ export const NavBar: React.FC = () => {
     const token = useSelector(getToken)
 
     let linkToUrl = '/addTask'
-    let linkToText = '/Добавить задачу'
+    let linkToText = 'Добавить задачу'
     let title = 'Список задач'
 
     console.log("47 currentUrl = " + currentUrl)
@@ -62,16 +64,20 @@ export const NavBar: React.FC = () => {
             title = 'Добавление новой задачи'
             break
         case '/login':
-            console.log("59 !")
             linkToUrl = '/addTask'
             linkToText = 'Добавить задачу'
             title = 'Авторизация пользователя'
             break
+        case '/edit/:id':
+            linkToUrl = '/'
+            linkToText = 'Список задач'
+            title = 'Редактирование задачи'
+            break
         break
     }
 
-
     const history = useHistory();
+    const dispatch = useAppDispatch();
 
     const authorize = () => {
         console.log("authorize")
@@ -101,8 +107,8 @@ export const NavBar: React.FC = () => {
     }
 
     const logout = () => {
-        console.log("logout!")
-        console.log("token = " + token)
+        dispatch(setToken(undefined))
+        dispatch(setAuthorized(false))
     }
 
     const classes = useStyles();

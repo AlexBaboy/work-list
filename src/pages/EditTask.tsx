@@ -1,29 +1,28 @@
 import React, { Suspense } from "react";
-import { StyledH2 } from "../components/ui/StyledH2";
+
 import Container from "@material-ui/core/Container";
 import { StyledP } from "../components/ui/StyledP";
 import { useForm } from "react-hook-form";
-import { StyledText } from "../components/ui/StyledText";
+
 import { StyledForm } from "../components/ui/StyledForm";
 import { StyledSubmit } from "../components/ui/StyledSubmit";
-import { StyledEmail } from "../components/ui/StyledEmail";
+
 import { StyledTextarea } from "../components/ui/StyledTextarea";
+import { StyledSelect } from "../components/ui/StyledSelect";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {addTaskRequest, setCurrentUrl} from "../store/worklist";
+import {editTaskRequest, setCurrentUrl} from "../store/worklist";
 
 import {useAppDispatch} from "../store";
 
 export const EditTask: React.FC<{id: number}> = ({id}) => {
 
-    const errorName = 'поле ИМЯ является обязательным'
-    const errorEmail = 'поле EMAIL некорректно'
     const errorText = 'поле ТЕКСТ является обязательным'
+    const errorStatus = 'поле СТАТУС является обязательным'
 
     const schema = yup.object({
-        username: yup.string().required(errorName),
-        email: yup.string().required(errorEmail).email(),
-        text: yup.string().required(errorText)
+        text: yup.string().required(errorText),
+        status: yup.string().required(errorStatus),
     });
 
     const {
@@ -40,9 +39,9 @@ export const EditTask: React.FC<{id: number}> = ({id}) => {
 
     const onSubmit = async (data: any) => {
         const form = new FormData();
-        form.append("username", data.username);
-        form.append("email", data.email);
+        form.append("id", data.id);
         form.append("text", data.text);
+        form.append("status", data.status);
 
         try {
             const resultAction = await dispatch(editTaskRequest( form ))
@@ -55,6 +54,7 @@ export const EditTask: React.FC<{id: number}> = ({id}) => {
     };
 
     React.useEffect(() => {
+        console.log("id = " + id)
         dispatch(setCurrentUrl(`edit/${id}`))
     },[])
 
@@ -64,36 +64,6 @@ export const EditTask: React.FC<{id: number}> = ({id}) => {
                 <div>
                     <StyledForm onSubmit={handleSubmit(onSubmit)}>
 
-                        <StyledP>Имя пользователя</StyledP>
-                        <StyledText
-                            border={errors.username ? "2px solid red" : ""}
-                            color={"black"}
-                            fontSize={"16px"}
-                            type="text"
-                            placeholder="введите имя пользователя"
-                            {...register("username")}
-                        />
-                        {errors.username && (
-                            <i>
-                                <b>{errorName}</b>
-                            </i>
-                        )}
-
-                        <StyledP>Email</StyledP>
-                        <StyledEmail
-                            border={errors.email ? "2px solid red" : ""}
-                            color={"black"}
-                            fontSize={"16px"}
-                            type="text"
-                            placeholder="введите email"
-                            {...register("email")}
-                        />
-                        {errors.email && (
-                            <i>
-                                <b>{errorEmail}</b>
-                            </i>
-                        )}
-
                         <StyledP>Задача</StyledP>
                         <StyledTextarea
                             border={errors.text ? "2px solid red" : ""}
@@ -102,9 +72,31 @@ export const EditTask: React.FC<{id: number}> = ({id}) => {
                             placeholder="введите задачу"
                             {...register("text")}
                         />
+
                         {errors.text && (
                             <i>
                                 <b>{errorText}</b>
+                            </i>
+                        )}
+
+                        <StyledP>Статус</StyledP>
+                        <StyledSelect
+                            border={errors.status ? "2px solid red" : ""}
+                            color={"black"}
+                            fontSize={"16px"}
+                            placeholder="введите задачу"
+                            {...register("status")}
+                        >
+                            <option value='undefined'>выбрать...</option>
+                            <option value='0'>задача не выполнена</option>
+                            <option value='1'>задача не выполнена, отредактирована админом</option>
+                            <option value='10'>задача выполнена</option>
+                            <option value='11'>задача отредактирована админом и выполнена</option>
+                        </StyledSelect>
+
+                        {errors.status && (
+                            <i>
+                                <b>{errorStatus}</b>
                             </i>
                         )}
 
@@ -112,7 +104,7 @@ export const EditTask: React.FC<{id: number}> = ({id}) => {
                             type="submit"
                             disabled={!isValid || Object.keys(errors).length > 0}
                         >
-                            Добавить
+                            редактировать
                         </StyledSubmit>
                     </StyledForm>
                 </div>

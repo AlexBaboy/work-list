@@ -8,6 +8,7 @@ import {Login} from "./pages/Login";
 import {AddTask} from "./pages/AddTask";
 import {ErrorPage} from "./pages/ErrorPage";
 import {WorkList} from "./pages/WorkList";
+import {EditTask} from "./pages/EditTask";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
                   <Route path="/"  component={WorkList} exact />
                   <Route path="/login" component={Login}  exact />
                   <Route path="/addTask" component={AddTask} exact />
+                  <Route path="/edit/:id" component={EditTask} exact />
                   <Route path="*"  component={ErrorPage} exact />
               </Switch>
           </BrowserRouter>
