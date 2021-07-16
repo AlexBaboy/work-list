@@ -34,6 +34,8 @@ export const addTaskRequest = createAsyncThunk(
 export const editTaskRequest = createAsyncThunk(
     "worklist/editTaskRequest",
     async (editedTask: FormData) => {
+        console.log("editedTask", editedTask)
+        //const {id} = editedTask.entries()
         const response = await axios.post(`${process.env.REACT_APP_BASE_URL!}?developer=Alex/edit/${editedTask}`, editedTask);
         return response?.data;
     }

@@ -14,6 +14,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import {useAppDispatch} from "../store";
+import {useHistory} from "react-router";
+import {useSelector} from "react-redux";
+import {getAuthorized} from "../components/Selectors";
 
 export const Login: React.FC = () => {
 
@@ -36,6 +39,7 @@ export const Login: React.FC = () => {
   });
 
   const dispatch = useAppDispatch();
+  const history = useHistory();
 
   const onSubmit = async (data: any) => {
     const form = new FormData();
@@ -55,6 +59,7 @@ export const Login: React.FC = () => {
           draggable: true,
           progress: undefined
         })
+
       } else {
         if( resultAction.payload.message ) {
           dispatch(setToken( resultAction.payload.message.token ))
@@ -69,6 +74,10 @@ export const Login: React.FC = () => {
             draggable: true,
             progress: undefined
           })
+          /*history.push({
+            pathname: '/'
+          });*/
+
         }
 
       }

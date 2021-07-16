@@ -51,6 +51,8 @@ export const NavBar: React.FC = () => {
     let title = 'Список задач'
 
     console.log("47 currentUrl = " + currentUrl)
+    console.log("47 isAdmin = " + isAdmin)
+    console.log("47 token = " + token)
 
     switch (currentUrl) {
         case '/':

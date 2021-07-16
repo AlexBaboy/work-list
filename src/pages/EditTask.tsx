@@ -16,7 +16,8 @@ import {editTaskRequest, setCurrentUrl} from "../store/worklist";
 import {useAppDispatch} from "../store";
 import {RouteComponentProps} from "react-router";
 import {useSelector} from "react-redux";
-import {getCurrentTaskInitialById, getCurrentTasks} from "../components/Selectors";
+import {getAuthorized, getCurrentTaskInitialById, getCurrentTasks, getToken} from "../components/Selectors";
+import {toast} from "react-toastify";
 
 export const EditTask: React.FC<RouteComponentProps<any>> = props => {
 
@@ -25,13 +26,9 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
 
     const currentTaskInitial = useSelector(getCurrentTaskInitialById(Number(props.match.params.id)))
 
-    console.log("id", Number(props.match.params.id))
-    console.log("list", useSelector(getCurrentTasks))
-    console.log("currentTaskInitial", currentTaskInitial)
-
     const schema = yup.object({
         text: yup.string().required(errorText),
-        status: yup.string().required(errorStatus),
+        status: yup.string().required(errorStatus)
     });
 
     const {
@@ -44,13 +41,29 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
         resolver: yupResolver(schema),
     });
 
-    const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch()
+    const token = useSelector(getToken)
 
     const onSubmit = async (data: any) => {
+        console.log("submit edit")
+        if(!token) {
+            toast.error("Нет доступа к редактированию записи!", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined
+            })
+            return false
+        }
+
         const form = new FormData();
         form.append("id", data.id);
         form.append("text", data.text);
         form.append("status", data.status);
+        form.append("token", token);
 
         try {
             const resultAction = await dispatch(editTaskRequest( form ))
@@ -80,6 +93,7 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
                             fontSize={"16px"}
                             placeholder="введите задачу"
                             {...register("text")}
+                            aria-valuetext={currentTaskInitial?.text}
                         />
 
                         {errors.text && (

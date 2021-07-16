@@ -15,7 +15,7 @@ import {
     getSortEmailType, getSortFieldName,
     getSortIdType,
     getSortStatusType,
-    getSortUserNameType
+    getSortUserNameType, getToken
 } from "../../Selectors";
 
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
@@ -79,6 +79,8 @@ export const WorkListTable = () => {
     const history = useHistory();
 
     console.log("worklist", worklist)
+    console.log("currentPage", currentPage)
+    console.log("token", useSelector(getToken))
 
     const titleValue = (type: string = 'asc') => {
         return 'сортировать по ' +  (type === 'asc' ? ' убыванию' : 'возрастанию')
