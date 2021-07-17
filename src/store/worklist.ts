@@ -5,6 +5,7 @@ import {Imessage} from "../interfaces/Imessage";
 import {IChangedParamsRequest} from "../interfaces/IChangedParamsRequest";
 import {ITask} from "../interfaces/ITask";
 import {fdatasync} from "fs";
+import {EditTaskParams} from "../interfaces/EditTaskParams";
 
 export const setWorklistInitial = createAsyncThunk(
     "worklist/setWorkListInitial",
@@ -26,6 +27,7 @@ export const changeRequest = createAsyncThunk(
 export const addTaskRequest = createAsyncThunk(
     "worklist/addTaskRequest",
     async (newTask: FormData) => {
+        console.log("29 newTask", newTask)
         const response = await axios.post(`${process.env.REACT_APP_BASE_URL!}create?developer=Alex`, newTask);
         return response?.data;
     }
@@ -33,10 +35,8 @@ export const addTaskRequest = createAsyncThunk(
 
 export const editTaskRequest = createAsyncThunk(
     "worklist/editTaskRequest",
-    async (editedTask: FormData) => {
-        console.log("editedTask", editedTask)
-        //const {id} = editedTask.entries()
-        const response = await axios.post(`${process.env.REACT_APP_BASE_URL!}?developer=Alex/edit/${editedTask}`, editedTask);
+    async (editedTask: EditTaskParams) => {
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL!}edit/${editedTask.id}/?developer=Alex`, editedTask.data);
         return response?.data;
     }
 );
@@ -56,7 +56,6 @@ const workListInitialState: IWorklistState = {
     currentPage: 1,
     exceptionText: "",
     recordsOnPage: 3,
-    isAdmin: false,
     totalTaskCount: 50,
     sortFieldName: 'id',
     sortDirection: 'asc',
@@ -65,7 +64,6 @@ const workListInitialState: IWorklistState = {
     sortEmailType: undefined,
     sortStatusType: undefined,
     currentUrl: "/",
-    token: undefined
 };
 
 const workListSlice = createSlice({
@@ -75,9 +73,6 @@ const workListSlice = createSlice({
     reducers: {
         setCurrentPage(state, action: PayloadAction<number>) {
             state.currentPage = action.payload;
-        },
-        setAuthorized(state, action: PayloadAction<boolean>) {
-            state.isAdmin = action.payload
         },
         setSortIdType(state, action: PayloadAction<string>) {
             state.sortIdType = action.payload
@@ -93,9 +88,6 @@ const workListSlice = createSlice({
         },
         setCurrentUrl(state, action: PayloadAction<string>) {
             state.currentUrl = action.payload
-        },
-        setToken(state, action: PayloadAction<string | undefined>) {
-            state.token = action.payload
         }
     },
 
@@ -160,7 +152,6 @@ const workListSlice = createSlice({
         builder.addCase(loginRequest.fulfilled,
             (state, action: PayloadAction<Imessage>) => {
                 state.isLoading = false;
-                state.isAdmin = true;
             }
         );
         builder.addCase(loginRequest.rejected, (state, action) => {
@@ -171,4 +162,4 @@ const workListSlice = createSlice({
 });
 
 export default workListSlice.reducer;
-export const { setAuthorized, setSortIdType, setSortUserNameType, setSortEmailType, setSortStatusType, setCurrentUrl, setToken } = workListSlice.actions;
+export const { setSortIdType, setSortUserNameType, setSortEmailType, setSortStatusType, setCurrentUrl } = workListSlice.actions;

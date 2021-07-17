@@ -9,13 +9,12 @@ import TableRow from "@material-ui/core/TableRow";
 import Avatar from "@material-ui/core/Avatar";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    getAuthorized,
     getCurrentPage,
-    getCurrentTasks, getSortDirection,
-    getSortEmailType, getSortFieldName,
+    getCurrentTasks,
+    getSortEmailType,
     getSortIdType,
     getSortStatusType,
-    getSortUserNameType, getToken
+    getSortUserNameType
 } from "../../Selectors";
 
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
@@ -80,7 +79,6 @@ export const WorkListTable = () => {
 
     console.log("worklist", worklist)
     console.log("currentPage", currentPage)
-    console.log("token", useSelector(getToken))
 
     const titleValue = (type: string = 'asc') => {
         return 'сортировать по ' +  (type === 'asc' ? ' убыванию' : 'возрастанию')
@@ -91,7 +89,7 @@ export const WorkListTable = () => {
     const sortEmailType = useSelector(getSortEmailType)
     const sortStatusType = useSelector(getSortStatusType)
 
-    const authorizeStatus = useSelector(getAuthorized)
+    const isAdmin = localStorage.getItem('isAdmin')
 
     const dispatch = useDispatch();
 
@@ -120,13 +118,11 @@ export const WorkListTable = () => {
 
     const editRecord = (id:number) => {
 
-        if(!authorizeStatus)    return false
-        console.log("114 id = " + id)
-        console.log("114 authorizeStatus = " + authorizeStatus)
+        if(!isAdmin)    return false
 
         history.push({
             pathname: `/edit/${id}`,
-            state: { detail: authorizeStatus }
+            state: { detail: isAdmin }
         });
     }
 
@@ -169,8 +165,8 @@ export const WorkListTable = () => {
                 <TableBody>
                     {worklist.map((todo) => (
                         <TableRow key={todo.id}
-                                  className={ authorizeStatus ? classes.editRow : ''}
-                                  title={authorizeStatus ? 'редактировать' : ''}
+                                  className={ isAdmin ? classes.editRow : ''}
+                                  title={isAdmin ? 'редактировать' : ''}
                                   onClick={()=> editRecord(todo.id!)}
                         >
                             <TableCell >

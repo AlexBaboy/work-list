@@ -10,14 +10,13 @@ import {StyledNavButtons} from "../ui/StyledNavButtons";
 import {StyledButtonSwitch} from "../ui/StyledButtonSwitch";
 import {StyledNavWrapper} from "../ui/StyledNavWrapper";
 import {useSelector} from "react-redux";
-import {getAuthorized, getCurrentUrl, getToken} from "../Selectors";
+import {getCurrentUrl} from "../Selectors";
 
 import {NavLink} from "react-router-dom";
 import {useHistory} from "react-router";
 
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import {setAuthorized, setToken} from "../../store/worklist";
 import {useAppDispatch} from "../../store";
 
 const NavWrapper = styled.div`
@@ -42,9 +41,9 @@ export const NavBar: React.FC = () => {
         })
     );
 
-    const isAdmin = useSelector(getAuthorized)
     const currentUrl = useSelector(getCurrentUrl)
-    const token = useSelector(getToken)
+    const isAdmin = localStorage.getItem('isAdmin')
+    const token = localStorage.getItem('token')
 
     let linkToUrl = '/addTask'
     let linkToText = 'Добавить задачу'
@@ -87,7 +86,6 @@ export const NavBar: React.FC = () => {
         if(!isAdmin)
             history.push({
                 pathname: '/login',
-                //search: '?query=abc',
                 state: { detail: isAdmin }
             });
         else {
@@ -109,8 +107,7 @@ export const NavBar: React.FC = () => {
     }
 
     const logout = () => {
-        dispatch(setToken(undefined))
-        dispatch(setAuthorized(false))
+        localStorage.clear()
     }
 
     const classes = useStyles();

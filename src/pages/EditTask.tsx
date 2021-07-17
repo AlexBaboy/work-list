@@ -16,8 +16,9 @@ import {editTaskRequest, setCurrentUrl} from "../store/worklist";
 import {useAppDispatch} from "../store";
 import {RouteComponentProps} from "react-router";
 import {useSelector} from "react-redux";
-import {getAuthorized, getCurrentTaskInitialById, getCurrentTasks, getToken} from "../components/Selectors";
+import {getCurrentTaskInitialById} from "../components/Selectors";
 import {toast} from "react-toastify";
+import {EditTaskParams} from "../interfaces/EditTaskParams";
 
 export const EditTask: React.FC<RouteComponentProps<any>> = props => {
 
@@ -25,6 +26,7 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
     const errorStatus = 'поле СТАТУС является обязательным'
 
     const currentTaskInitial = useSelector(getCurrentTaskInitialById(Number(props.match.params.id)))
+    console.log("currentTaskInitial", currentTaskInitial)
 
     const schema = yup.object({
         text: yup.string().required(errorText),
@@ -42,11 +44,13 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
     });
 
     const dispatch = useAppDispatch()
-    const token = useSelector(getToken)
+    const token = localStorage.getItem('token')
 
     const onSubmit = async (data: any) => {
         console.log("submit edit")
+        console.log("50 token = " + token)
         if(!token) {
+            console.log("52")
             toast.error("Нет доступа к редактированию записи!", {
                 position: "top-center",
                 autoClose: 5000,
@@ -60,13 +64,18 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
         }
 
         const form = new FormData();
-        form.append("id", data.id);
+        form.append("id", props.match.params.id);
         form.append("text", data.text);
         form.append("status", data.status);
         form.append("token", token);
 
         try {
-            const resultAction = await dispatch(editTaskRequest( form ))
+
+            const editedTaskParams = {} as EditTaskParams;
+            editedTaskParams.id =  props.match.params.id
+            editedTaskParams.data =  form
+
+            const resultAction = await dispatch(editTaskRequest( editedTaskParams ))
             console.log("resultAction", resultAction)
 
         } catch (rejectedValueOrSerializedError) {
@@ -93,7 +102,7 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
                             fontSize={"16px"}
                             placeholder="введите задачу"
                             {...register("text")}
-                            aria-valuetext={currentTaskInitial?.text}
+                            defaultValue={currentTaskInitial?.text}
                         />
 
                         {errors.text && (
@@ -107,9 +116,11 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
                             border={errors.status ? "2px solid red" : ""}
                             color={"black"}
                             fontSize={"16px"}
-                            placeholder="введите задачу"
+                            placeholder="укажите статус"
                             {...register("status")}
+                            defaultValue={currentTaskInitial?.status.toString()}
                         >
+
                             <option value='undefined'>выбрать...</option>
                             <option value='0'>задача не выполнена</option>
                             <option value='1'>задача не выполнена, отредактирована админом</option>

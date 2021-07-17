@@ -1,8 +1,5 @@
 import { RootState } from "../../store";
 
-export const getAuthorized = (state:RootState) => state.wl.isAdmin
-export const getToken = (state:RootState) => state.wl.token
-
 export const getLoadingStatus = (state:RootState) => state.wl.isLoading
 export const getErrorStatus = (state:RootState) => state.wl.isError
 

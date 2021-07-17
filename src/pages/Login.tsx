@@ -8,15 +8,13 @@ import { StyledForm } from "../components/ui/StyledForm";
 import { StyledSubmit } from "../components/ui/StyledSubmit";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {loginRequest, setAuthorized, setCurrentUrl, setToken} from "../store/worklist";
+import {loginRequest, setCurrentUrl} from "../store/worklist";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import {useAppDispatch} from "../store";
 import {useHistory} from "react-router";
-import {useSelector} from "react-redux";
-import {getAuthorized} from "../components/Selectors";
 
 export const Login: React.FC = () => {
 
@@ -62,8 +60,9 @@ export const Login: React.FC = () => {
 
       } else {
         if( resultAction.payload.message ) {
-          dispatch(setToken( resultAction.payload.message.token ))
-          dispatch(setAuthorized( true ))
+
+          localStorage.setItem("token", resultAction.payload.message.token);
+          localStorage.setItem("isAdmin", 'true');
 
           toast.info("Авторизация прошла успешно!", {
             position: "top-center",

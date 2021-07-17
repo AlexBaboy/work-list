@@ -8,7 +8,6 @@ export interface IWorklistState {
     currentUrl: string;
     exceptionText: string;
     recordsOnPage: number;
-    isAdmin: boolean;
     totalTaskCount: number;
     sortFieldName: string | undefined;
     sortDirection: string | undefined;
@@ -16,5 +15,4 @@ export interface IWorklistState {
     sortUsernameType: string | undefined;
     sortEmailType: string | undefined;
     sortStatusType: string | undefined;
-    token: string | undefined
 }
