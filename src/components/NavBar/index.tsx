@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Box} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import styled from 'styled-components'
@@ -9,15 +9,13 @@ import Container from "@material-ui/core/Container";
 import {StyledNavButtons} from "../ui/StyledNavButtons";
 import {StyledButtonSwitch} from "../ui/StyledButtonSwitch";
 import {StyledNavWrapper} from "../ui/StyledNavWrapper";
-import {useSelector} from "react-redux";
-import {getCurrentUrl} from "../Selectors";
-
 import {NavLink} from "react-router-dom";
 import {useHistory} from "react-router";
-
-import { confirmAlert } from 'react-confirm-alert'; // Import
+import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import {useAppDispatch} from "../../store";
+import {useSelector} from "react-redux";
+import {getCurrentUrl} from "../Selectors";
+import {toast, ToastContainer} from "react-toastify";
 
 const NavWrapper = styled.div`
   display: flex;
@@ -42,46 +40,53 @@ export const NavBar: React.FC = () => {
     );
 
     const currentUrl = useSelector(getCurrentUrl)
-    const isAdmin = localStorage.getItem('isAdmin')
-    const token = localStorage.getItem('token')
+    const [isAdmin, setAdmin] = useState(localStorage.getItem('isAdmin') || null)
+    const [token, setToken] = useState(localStorage.getItem('token') || null)
 
-    let linkToUrl = '/addTask'
-    let linkToText = 'Добавить задачу'
-    let title = 'Список задач'
+    let [linkToUrl, setLinkToUrl] = useState('/addTask')
+    let [linkToText, setLinkToText] = useState('Добавить задачу')
+    let [title, setTitle] = useState('Список задач')
 
     console.log("47 currentUrl = " + currentUrl)
     console.log("47 isAdmin = " + isAdmin)
     console.log("47 token = " + token)
 
-    switch (currentUrl) {
-        case '/':
-            linkToUrl = '/addTask'
-            linkToText = 'Добавить задачу'
-            title = 'Список задач'
-            break
-        case '/addTask':
-            linkToUrl = '/'
-            linkToText = 'Список задач'
-            title = 'Добавление новой задачи'
-            break
-        case '/login':
-            linkToUrl = '/addTask'
-            linkToText = 'Добавить задачу'
-            title = 'Авторизация пользователя'
-            break
-        case '/edit/:id':
-            linkToUrl = '/'
-            linkToText = 'Список задач'
-            title = 'Редактирование задачи'
-            break
-        break
-    }
+    React.useEffect( () => {
+
+        setAdmin(localStorage.getItem('isAdmin') || null)
+        setToken(localStorage.getItem('token') || null)
+
+        const typeAction = currentUrl.split('/')[1];
+        console.log("typeAction", typeAction)
+
+        switch (typeAction) {
+            case '':
+                setLinkToUrl('/addTask')
+                setLinkToText('Добавить задачу')
+                setTitle('Список задач')
+                break
+            case 'addTask':
+                setLinkToUrl('/')
+                setLinkToText('Список задач')
+                setTitle('Добавление новой задачи')
+                break
+            case 'login':
+                setLinkToUrl('/addTask')
+                setLinkToText('Добавить задачу')
+                setTitle('Авторизация пользователя')
+                break
+            case 'edit':
+                setLinkToUrl('/')
+                setLinkToText('Список задач')
+                setTitle('Редактирование задачи')
+                break
+        }
+        console.log("77")
+    }, [currentUrl])
 
     const history = useHistory();
-    const dispatch = useAppDispatch();
 
     const authorize = () => {
-        console.log("authorize")
 
         if(!isAdmin)
             history.push({
@@ -108,6 +113,25 @@ export const NavBar: React.FC = () => {
 
     const logout = () => {
         localStorage.clear()
+        console.log('104 isAdmin', isAdmin)
+        console.log("105 token = " + token)
+
+        setAdmin(null)
+        setToken(null)
+
+        toast.info("Деавторизация прошла успешно!", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined
+        })
+
+        setTimeout(() => {
+            history.push('/')
+        }, 3000);
     }
 
     const classes = useStyles();
@@ -139,6 +163,9 @@ export const NavBar: React.FC = () => {
                     </Grid>
                 </nav>
             </NavWrapper>
+
+            <ToastContainer />
+
         </Container>
     )
 }

@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, {Suspense, useState} from "react";
 import { StyledH2 } from "../components/ui/StyledH2";
 import Container from "@material-ui/core/Container";
 import { StyledP } from "../components/ui/StyledP";
@@ -39,6 +39,8 @@ export const Login: React.FC = () => {
   const dispatch = useAppDispatch();
   const history = useHistory();
 
+  const [disabled, setDisabled] = useState(false)
+
   const onSubmit = async (data: any) => {
     const form = new FormData();
     form.append("username", data.username);
@@ -50,7 +52,7 @@ export const Login: React.FC = () => {
       if( resultAction.payload.status === 'error' ) {
         toast.error(resultAction.payload.message.username ? resultAction.payload.message.username : resultAction.payload.message.password, {
           position: "top-center",
-          autoClose: 5000,
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -59,6 +61,9 @@ export const Login: React.FC = () => {
         })
 
       } else {
+
+        setDisabled(true)
+
         if( resultAction.payload.message ) {
 
           localStorage.setItem("token", resultAction.payload.message.token);
@@ -66,19 +71,19 @@ export const Login: React.FC = () => {
 
           toast.info("Авторизация прошла успешно!", {
             position: "top-center",
-            autoClose: 5000,
+            autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined
           })
-          /*history.push({
-            pathname: '/'
-          });*/
+
+          setTimeout(() => {
+            history.push('/')
+          }, 3000);
 
         }
-
       }
 
     } catch (rejectedValueOrSerializedError) {
@@ -107,6 +112,7 @@ export const Login: React.FC = () => {
               placeholder="введите логин"
               {...register("username")}
                 onChange={(e)=> console.log(isValid)}
+              disabled={disabled}
             />
             {errors.username  && (
               <i>
@@ -123,6 +129,7 @@ export const Login: React.FC = () => {
                 placeholder="введите пароль"
                 {...register("password")}
                 onChange={(e)=> console.log(isValid)}
+                disabled={disabled}
             />
             {errors.password && (
                 <i>
@@ -132,7 +139,7 @@ export const Login: React.FC = () => {
 
             <StyledSubmit
               type="submit"
-              disabled={!isValid || Object.keys(errors).length > 0}
+              disabled={!isValid || Object.keys(errors).length > 0 || disabled}
             >
               Авторизация
             </StyledSubmit>

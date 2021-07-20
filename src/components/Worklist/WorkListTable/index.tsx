@@ -84,7 +84,6 @@ export const WorkListTable = () => {
         return 'сортировать по ' +  (type === 'asc' ? ' убыванию' : 'возрастанию')
     }
 
-    const sortIdType = useSelector(getSortIdType)
     const sortUserNameType = useSelector(getSortUserNameType)
     const sortEmailType = useSelector(getSortEmailType)
     const sortStatusType = useSelector(getSortStatusType)
@@ -95,9 +94,6 @@ export const WorkListTable = () => {
 
     const sortField = (name: string, type:string = 'asc') => {
         switch(name) {
-            case 'id':
-                dispatch(setSortIdType(type))
-                break;
             case 'username':
                 dispatch(setSortUserNameType(type))
                 break;
@@ -131,13 +127,13 @@ export const WorkListTable = () => {
             <Table className={classes.table} aria-label="contacts table">
                 <TableHead className="table-head">
                     <TableRow>
-                        <TableCell className={classes.cellId}><b>ID</b>
+                        {/*<TableCell className={classes.cellId}><b>ID</b>
                             {sortIdType === 'desc' ?
                                 <ArrowDropDownIcon titleAccess={titleValue(sortIdType)}  className={classes.arrow}  onClick={ () => sortField('id','asc')} />
                                 :
                                 <ArrowDropUpIcon titleAccess={titleValue(sortIdType)} className={classes.arrow} onClick={ () => sortField('id', 'desc')} />
                             }
-                        </TableCell>
+                        </TableCell>*/}
                         <TableCell className={classes.cellName}><b>Имя пользователя</b>
                             {sortUserNameType === 'desc' ?
                                 <ArrowDropDownIcon titleAccess={titleValue(sortUserNameType)} className={classes.arrow}  onClick={ () => sortField('username','asc')} />
@@ -169,9 +165,9 @@ export const WorkListTable = () => {
                                   title={isAdmin ? 'редактировать' : ''}
                                   onClick={()=> editRecord(todo.id!)}
                         >
-                            <TableCell >
+                            {/*<TableCell >
                                 {todo.id}
-                            </TableCell>
+                            </TableCell>*/}
                             <TableCell component="th" scope="row">
                                 <div className={classes.userName}>
                                     <div>

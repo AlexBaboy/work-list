@@ -27,7 +27,6 @@ export const changeRequest = createAsyncThunk(
 export const addTaskRequest = createAsyncThunk(
     "worklist/addTaskRequest",
     async (newTask: FormData) => {
-        console.log("29 newTask", newTask)
         const response = await axios.post(`${process.env.REACT_APP_BASE_URL!}create?developer=Alex`, newTask);
         return response?.data;
     }
@@ -155,6 +154,20 @@ const workListSlice = createSlice({
             }
         );
         builder.addCase(loginRequest.rejected, (state, action) => {
+            state.isError = true;
+            state.exceptionText = action.error?.toString();
+        });
+
+        // editTask
+        builder.addCase(editTaskRequest.pending, (state, action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(editTaskRequest.fulfilled,
+            (state, action: PayloadAction<Imessage>) => {
+                state.isLoading = false;
+            }
+        );
+        builder.addCase(editTaskRequest.rejected, (state, action) => {
             state.isError = true;
             state.exceptionText = action.error?.toString();
         });

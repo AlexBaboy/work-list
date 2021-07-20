@@ -11,6 +11,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {addTaskRequest, setCurrentUrl} from "../store/worklist";
 import {useAppDispatch} from "../store";
+import {ToastContainer} from "react-toastify";
 
 export const AddTask: React.FC = () => {
 
@@ -122,6 +123,9 @@ export const AddTask: React.FC = () => {
                         >
                             Добавить
                         </StyledSubmit>
+
+                        <ToastContainer />
+
                     </StyledForm>
                 </div>
             </Container>

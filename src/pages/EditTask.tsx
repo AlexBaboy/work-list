@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, {Suspense, useState} from "react";
 
 import Container from "@material-ui/core/Container";
 import { StyledP } from "../components/ui/StyledP";
@@ -8,7 +8,6 @@ import { StyledForm } from "../components/ui/StyledForm";
 import { StyledSubmit } from "../components/ui/StyledSubmit";
 
 import { StyledTextarea } from "../components/ui/StyledTextarea";
-import { StyledSelect } from "../components/ui/StyledSelect";
 import { StyledCheckbox } from "../components/ui/StyledCheckbox";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -17,8 +16,8 @@ import {editTaskRequest, setCurrentUrl} from "../store/worklist";
 import {useAppDispatch} from "../store";
 import {RouteComponentProps, useHistory} from "react-router";
 import {useSelector} from "react-redux";
-import {getCurrentTaskInitialById} from "../components/Selectors";
-import {toast} from "react-toastify";
+import {getCurrentTaskInitialById, getLoadingStatus} from "../components/Selectors";
+import {toast, ToastContainer} from "react-toastify";
 import {EditTaskParams} from "../interfaces/EditTaskParams";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 
@@ -62,6 +61,8 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
     const token = localStorage.getItem('token')
     const history = useHistory();
 
+    const [disabled, setDisabled] = useState(false)
+
     const onSubmit = async (data: any) => {
         console.log("submit edit")
         if(!token) {
@@ -95,7 +96,7 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
             data.status = 0
 
         const form = new FormData();
-        form.append("id", props.match.params.id);
+        //form.append("id", props.match.params.id);
         form.append("text", data.text);
         form.append("status", data.status);
         form.append("token", token);
@@ -109,15 +110,20 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
             const resultAction = await dispatch(editTaskRequest( editedTaskParams ))
             console.log("resultAction", resultAction)
 
+            setDisabled(true)
             toast.info("Изменения успешно сохранены!", {
                 position: "top-center",
-                autoClose: 5000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
                 progress: undefined
             })
+
+            setTimeout(()=> {
+                history.push('/')
+            },3000)
 
         } catch (rejectedValueOrSerializedError) {
             // handle error here
@@ -146,6 +152,7 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
                             placeholder="введите задачу"
                             {...register("text")}
                             defaultValue={currentTaskInitial?.text}
+                            disabled={disabled}
                         />
 
                         {errors.text && (
@@ -163,6 +170,7 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
                                 defaultChecked={currentTaskInitial?.status === 10 || currentTaskInitial?.status === 11}
                                 id='status-id'
                                 {...register("status")}
+                                disabled={disabled}
                             />
                             <label
                                 htmlFor='status-id'
@@ -172,10 +180,13 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
 
                         <StyledSubmit
                             type="submit"
-                            disabled={!isValid || Object.keys(errors).length > 0}
+                            disabled={!isValid || Object.keys(errors).length > 0 || disabled}
                         >
                             редактировать
                         </StyledSubmit>
+
+                        <ToastContainer />
+
                     </StyledForm>
                 </div>
             </Container>
