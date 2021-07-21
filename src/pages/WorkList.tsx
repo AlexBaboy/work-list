@@ -3,11 +3,11 @@ import {useDispatch, useSelector} from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Pagination } from "../components/Pagination";
 import Container from "@material-ui/core/Container";
-import {WorkListTable} from "../components/Worklist/WorkListTable";
+import {WorkListTable} from "../components/WorkListTable";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import {setCurrentUrl, setWorklistInitial} from "../store/worklist";
 import styles from "../components/ui/styles.module.css";
-import {getErrorStatus, getLoadingStatus} from "../components/Selectors";
+import {getErrorStatus, getLoadingStatus} from "../store/selectors";
 
 const useStyles = makeStyles((theme) =>
     createStyles({

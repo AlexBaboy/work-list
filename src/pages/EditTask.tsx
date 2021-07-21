@@ -16,7 +16,7 @@ import {editTaskRequest, setCurrentUrl} from "../store/worklist";
 import {useAppDispatch} from "../store";
 import {RouteComponentProps, useHistory} from "react-router";
 import {useSelector} from "react-redux";
-import {getCurrentTaskInitialById, getLoadingStatus} from "../components/Selectors";
+import {getCurrentTaskInitialById, getLoadingStatus} from "../store/selectors";
 import {toast, ToastContainer} from "react-toastify";
 import {EditTaskParams} from "../interfaces/EditTaskParams";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
@@ -26,7 +26,6 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
     const errorText = 'поле ТЕКСТ является обязательным'
 
     const currentTaskInitial = useSelector(getCurrentTaskInitialById(Number(props.match.params.id)))
-    console.log("currentTaskInitial", currentTaskInitial)
 
     const schema = yup.object({
         text: yup.string().required(errorText)
@@ -64,7 +63,7 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
     const [disabled, setDisabled] = useState(false)
 
     const onSubmit = async (data: any) => {
-        console.log("submit edit")
+
         if(!token) {
 
             toast.error("Нет доступа к редактированию записи!", {
@@ -96,11 +95,11 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
             data.status = 0
 
         const form = new FormData();
-        //form.append("id", props.match.params.id);
+
         form.append("text", data.text);
         form.append("status", data.status);
         form.append("token", token);
-        console.log("89 data", data)
+
         try {
 
             const editedTaskParams = {} as EditTaskParams;

@@ -1,11 +1,17 @@
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {changeRequest} from "../../store/worklist";
-import {getRecordsCountOnPage, getSortDirection, getSortFieldName, getTotalTaskCount} from "../Selectors";
-import {StyledPaginationWrapper} from "../ui/StyledPaginationWrapper";
+import {changeRequest} from "../store/worklist";
+import {
+    getRecordsCountOnPage,
+    getSortDirection,
+    getSortFieldName,
+    getTotalPageCount,
+    getTotalTaskCount
+} from "../store/selectors";
+import {StyledPaginationWrapper} from "./ui/StyledPaginationWrapper";
 import ReactPaginate from 'react-paginate';
 
-import {getChangedUrlParams} from "../../functions";
+import {getChangedUrlParams} from "../utils";
 
 export const Pagination = React.memo(() => {
 
@@ -23,9 +29,7 @@ export const Pagination = React.memo(() => {
       [sortFieldName, sortDirection]
   );
 
-  const taskPerPage = useSelector(getRecordsCountOnPage)
-  const totalTaskCount = useSelector(getTotalTaskCount)
-  const totalPageCount = Math.ceil(totalTaskCount / taskPerPage);
+  const totalPageCount = useSelector(getTotalPageCount)
 
   return (
     <div>

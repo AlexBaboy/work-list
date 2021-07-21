@@ -36,7 +36,3 @@ export const getStatusNameByCode = (code:number) => {
             return 'отредактирована админом и выполнена'
     }
 }
-
-export const generateNavBar = (currentUrl:string) => {
-
-}

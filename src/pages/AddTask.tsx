@@ -13,7 +13,7 @@ import {addTaskRequest, setCurrentUrl} from "../store/worklist";
 import {useAppDispatch} from "../store";
 import {ToastContainer} from "react-toastify";
 
-export const AddTask: React.FC = () => {
+export const AddTask = () => {
 
     const errorName = 'поле ИМЯ является обязательным'
     const errorEmail = 'поле EMAIL некорректно'

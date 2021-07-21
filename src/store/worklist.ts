@@ -3,9 +3,8 @@ import axios from "axios";
 import {IWorklistState} from "../interfaces/IWorklistState";
 import {Imessage} from "../interfaces/Imessage";
 import {IChangedParamsRequest} from "../interfaces/IChangedParamsRequest";
-import {ITask} from "../interfaces/ITask";
-import {fdatasync} from "fs";
 import {EditTaskParams} from "../interfaces/EditTaskParams";
+import {ILoginResponse} from "../interfaces/ILoginResponse";
 
 export const setWorklistInitial = createAsyncThunk(
     "worklist/setWorkListInitial",
@@ -58,7 +57,6 @@ const workListInitialState: IWorklistState = {
     totalTaskCount: 50,
     sortFieldName: 'id',
     sortDirection: 'asc',
-    sortIdType: undefined,
     sortUsernameType: undefined,
     sortEmailType: undefined,
     sortStatusType: undefined,
@@ -72,9 +70,6 @@ const workListSlice = createSlice({
     reducers: {
         setCurrentPage(state, action: PayloadAction<number>) {
             state.currentPage = action.payload;
-        },
-        setSortIdType(state, action: PayloadAction<string>) {
-            state.sortIdType = action.payload
         },
         setSortUserNameType(state, action: PayloadAction<string>) {
             state.sortUsernameType = action.payload
@@ -149,8 +144,10 @@ const workListSlice = createSlice({
             state.isLoading = true;
         });
         builder.addCase(loginRequest.fulfilled,
-            (state, action: PayloadAction<Imessage>) => {
+            (state, action: PayloadAction<ILoginResponse>) => {
                 state.isLoading = false;
+                localStorage.setItem("token", action.payload.message.token);
+                localStorage.setItem("isAdmin", 'true');
             }
         );
         builder.addCase(loginRequest.rejected, (state, action) => {
@@ -175,4 +172,4 @@ const workListSlice = createSlice({
 });
 
 export default workListSlice.reducer;
-export const { setSortIdType, setSortUserNameType, setSortEmailType, setSortStatusType, setCurrentUrl } = workListSlice.actions;
+export const { setSortUserNameType, setSortEmailType, setSortStatusType, setCurrentUrl } = workListSlice.actions;

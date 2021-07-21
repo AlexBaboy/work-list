@@ -66,8 +66,7 @@ export const Login: React.FC = () => {
 
         if( resultAction.payload.message ) {
 
-          localStorage.setItem("token", resultAction.payload.message.token);
-          localStorage.setItem("isAdmin", 'true');
+
 
           toast.info("Авторизация прошла успешно!", {
             position: "top-center",

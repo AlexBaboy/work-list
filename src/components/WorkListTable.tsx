@@ -12,22 +12,20 @@ import {
     getCurrentPage,
     getCurrentTasks,
     getSortEmailType,
-    getSortIdType,
     getSortStatusType,
     getSortUserNameType
-} from "../../Selectors";
+} from "../store/selectors";
 
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import {
-    setSortIdType,
     setSortUserNameType,
     setSortEmailType,
     setSortStatusType,
     changeRequest
-} from "../../../store/worklist";
+} from "../store/worklist";
 
-import {getChangedUrlParams, getStatusNameByCode} from "../../../functions";
+import {getChangedUrlParams, getStatusNameByCode} from "../utils";
 import {useHistory} from "react-router";
 
 const useStyles = makeStyles((theme) =>

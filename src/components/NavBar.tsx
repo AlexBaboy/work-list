@@ -4,17 +4,16 @@ import Typography from "@material-ui/core/Typography";
 import styled from 'styled-components'
 import Grid from "@material-ui/core/Grid";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
-
 import Container from "@material-ui/core/Container";
-import {StyledNavButtons} from "../ui/StyledNavButtons";
-import {StyledButtonSwitch} from "../ui/StyledButtonSwitch";
-import {StyledNavWrapper} from "../ui/StyledNavWrapper";
+import {StyledNavButtons} from "./ui/StyledNavButtons";
+import {StyledButtonSwitch} from "./ui/StyledButtonSwitch";
+import {StyledNavWrapper} from "./ui/StyledNavWrapper";
 import {NavLink} from "react-router-dom";
 import {useHistory} from "react-router";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import {useSelector} from "react-redux";
-import {getCurrentUrl} from "../Selectors";
+import {getCurrentUrl} from "../store/selectors";
 import {toast, ToastContainer} from "react-toastify";
 
 const NavWrapper = styled.div`
@@ -47,17 +46,12 @@ export const NavBar: React.FC = () => {
     let [linkToText, setLinkToText] = useState('Добавить задачу')
     let [title, setTitle] = useState('Список задач')
 
-    console.log("47 currentUrl = " + currentUrl)
-    console.log("47 isAdmin = " + isAdmin)
-    console.log("47 token = " + token)
-
     React.useEffect( () => {
 
         setAdmin(localStorage.getItem('isAdmin') || null)
         setToken(localStorage.getItem('token') || null)
 
         const typeAction = currentUrl.split('/')[1];
-        console.log("typeAction", typeAction)
 
         switch (typeAction) {
             case '':
@@ -81,7 +75,7 @@ export const NavBar: React.FC = () => {
                 setTitle('Редактирование задачи')
                 break
         }
-        console.log("77")
+
     }, [currentUrl])
 
     const history = useHistory();

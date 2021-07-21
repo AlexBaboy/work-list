@@ -11,7 +11,6 @@ export interface IWorklistState {
     totalTaskCount: number;
     sortFieldName: string | undefined;
     sortDirection: string | undefined;
-    sortIdType: string | undefined;
     sortUsernameType: string | undefined;
     sortEmailType: string | undefined;
     sortStatusType: string | undefined;
