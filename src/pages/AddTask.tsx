@@ -11,7 +11,8 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {addTaskRequest, setCurrentUrl} from "../store/worklist";
 import {useAppDispatch} from "../store";
-import {ToastContainer} from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
+import {useHistory} from "react-router";
 
 export const AddTask = () => {
 
@@ -36,6 +37,7 @@ export const AddTask = () => {
     });
 
     const dispatch = useAppDispatch();
+    const history = useHistory();
 
     const onSubmit = async (data: any) => {
         const form = new FormData();
@@ -45,22 +47,41 @@ export const AddTask = () => {
 
         try {
             const resultAction = await dispatch(addTaskRequest( form ))
-            console.log("resultAction", resultAction)
+
+            if( resultAction.payload.status === 'ok' ) {
+
+                toast.info("Задача успешно добавлена!", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined
+                })
+
+                setTimeout(() => {
+                    history.push('/')
+                }, 3000);
+
+            } else {
+                toast.error(resultAction.payload.message.username ||
+                                    resultAction.payload.message.email ||
+                                    resultAction.payload.message.text ||
+                                    'Ошибка при добавлении задачи!', {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined
+                })
+            }
 
         } catch (rejectedValueOrSerializedError) {
             // handle error here
         }
-
-        /*if (addTaskRequest.fulfilled.match(resultAction)) {
-
-        } else {
-            if (resultAction.payload) {
-                // Being that we passed in ValidationErrors to rejectType in `createAsyncThunk`, those types will be available here.
-                //formikHelpers.setErrors(resultAction.payload.field_errors)
-            } else {
-                //showToast('error', `Update failed: ${resultAction.error}`)
-            }
-        }*/
     };
 
     React.useEffect(() => {

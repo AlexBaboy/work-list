@@ -3,8 +3,9 @@ import axios from "axios";
 import {IWorklistState} from "../interfaces/IWorklistState";
 import {Imessage} from "../interfaces/Imessage";
 import {IChangedParamsRequest} from "../interfaces/IChangedParamsRequest";
-import {EditTaskParams} from "../interfaces/EditTaskParams";
+import {IEditTaskParams} from "../interfaces/IEditTaskParams";
 import {ILoginResponse} from "../interfaces/ILoginResponse";
+import {IAddTaskResponse} from "../interfaces/IAddTaskResponse";
 
 export const setWorklistInitial = createAsyncThunk(
     "worklist/setWorkListInitial",
@@ -33,7 +34,7 @@ export const addTaskRequest = createAsyncThunk(
 
 export const editTaskRequest = createAsyncThunk(
     "worklist/editTaskRequest",
-    async (editedTask: EditTaskParams) => {
+    async (editedTask: IEditTaskParams) => {
         const response = await axios.post(`${process.env.REACT_APP_BASE_URL!}edit/${editedTask.id}/?developer=Alex`, editedTask.data);
         return response?.data;
     }
@@ -130,7 +131,7 @@ const workListSlice = createSlice({
         });
         builder.addCase(
             (addTaskRequest.fulfilled),
-            (state, action: PayloadAction<Imessage>) => {
+            (state, action: PayloadAction<IAddTaskResponse>) => {
                 state.isLoading = false;
             }
         );

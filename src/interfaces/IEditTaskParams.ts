@@ -1,4 +1,4 @@
-export interface EditTaskParams {
+export interface IEditTaskParams {
     id: number,
     data: FormData
 }

@@ -66,8 +66,6 @@ export const Login: React.FC = () => {
 
         if( resultAction.payload.message ) {
 
-
-
           toast.info("Авторизация прошла успешно!", {
             position: "top-center",
             autoClose: 3000,

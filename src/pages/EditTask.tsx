@@ -18,7 +18,7 @@ import {RouteComponentProps, useHistory} from "react-router";
 import {useSelector} from "react-redux";
 import {getCurrentTaskInitialById, getLoadingStatus} from "../store/selectors";
 import {toast, ToastContainer} from "react-toastify";
-import {EditTaskParams} from "../interfaces/EditTaskParams";
+import {IEditTaskParams} from "../interfaces/IEditTaskParams";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 
 export const EditTask: React.FC<RouteComponentProps<any>> = props => {
@@ -102,12 +102,11 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
 
         try {
 
-            const editedTaskParams = {} as EditTaskParams;
+            const editedTaskParams = {} as IEditTaskParams;
             editedTaskParams.id =  props.match.params.id
             editedTaskParams.data =  form
 
             const resultAction = await dispatch(editTaskRequest( editedTaskParams ))
-            console.log("resultAction", resultAction)
 
             setDisabled(true)
             toast.info("Изменения успешно сохранены!", {
