@@ -1,14 +1,14 @@
-import React, { Suspense } from "react";
+import React, {Suspense, useState} from "react";
 import Container from "@material-ui/core/Container";
-import { StyledP } from "../components/ui/StyledP";
-import { useForm } from "react-hook-form";
-import { StyledText } from "../components/ui/StyledText";
-import { StyledForm } from "../components/ui/StyledForm";
-import { StyledSubmit } from "../components/ui/StyledSubmit";
-import { StyledEmail } from "../components/ui/StyledEmail";
-import { StyledTextarea } from "../components/ui/StyledTextarea";
+import {StyledP} from "../components/ui/StyledP";
+import {useForm} from "react-hook-form";
+import {StyledText} from "../components/ui/StyledText";
+import {StyledForm} from "../components/ui/StyledForm";
+import {StyledSubmit} from "../components/ui/StyledSubmit";
+import {StyledEmail} from "../components/ui/StyledEmail";
+import {StyledTextarea} from "../components/ui/StyledTextarea";
 import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import {yupResolver} from "@hookform/resolvers/yup";
 import {addTaskRequest, setCurrentUrl} from "../store/worklist";
 import {useAppDispatch} from "../store";
 import {toast, ToastContainer} from "react-toastify";
@@ -20,6 +20,8 @@ export const AddTask = () => {
     const errorEmail = 'поле EMAIL некорректно'
     const errorText = 'поле ТЕКСТ является обязательным'
 
+    const [disabled, setDisabled] = useState(false)
+
     const schema = yup.object({
         username: yup.string().required(errorName),
         email: yup.string().required(errorEmail).email(),
@@ -29,7 +31,7 @@ export const AddTask = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors, isValid },
+        formState: {errors, isValid},
     } = useForm({
         mode: "onTouched",
         reValidateMode: "onSubmit",
@@ -46,9 +48,11 @@ export const AddTask = () => {
         form.append("text", data.text);
 
         try {
-            const resultAction = await dispatch(addTaskRequest( form ))
+            const resultAction = await dispatch(addTaskRequest(form))
 
-            if( resultAction.payload.status === 'ok' ) {
+            setDisabled(true)
+
+            if (resultAction.payload.status === 'ok') {
 
                 toast.info("Задача успешно добавлена!", {
                     position: "top-center",
@@ -66,9 +70,9 @@ export const AddTask = () => {
 
             } else {
                 toast.error(resultAction.payload.message.username ||
-                                    resultAction.payload.message.email ||
-                                    resultAction.payload.message.text ||
-                                    'Ошибка при добавлении задачи!', {
+                    resultAction.payload.message.email ||
+                    resultAction.payload.message.text ||
+                    'Ошибка при добавлении задачи!', {
                     position: "top-center",
                     autoClose: 3000,
                     hideProgressBar: false,
@@ -77,6 +81,7 @@ export const AddTask = () => {
                     draggable: true,
                     progress: undefined
                 })
+                setDisabled(false)
             }
 
         } catch (rejectedValueOrSerializedError) {
@@ -86,7 +91,7 @@ export const AddTask = () => {
 
     React.useEffect(() => {
         dispatch(setCurrentUrl('/addTask'))
-    },[])
+    }, [])
 
     return (
         <Suspense fallback={"loading"}>
@@ -102,6 +107,7 @@ export const AddTask = () => {
                             type="text"
                             placeholder="введите имя пользователя"
                             {...register("username")}
+                            disabled={disabled}
                         />
                         {errors.username && (
                             <i>
@@ -117,6 +123,7 @@ export const AddTask = () => {
                             type="text"
                             placeholder="введите email"
                             {...register("email")}
+                            disabled={disabled}
                         />
                         {errors.email && (
                             <i>
@@ -131,6 +138,7 @@ export const AddTask = () => {
                             fontSize={"16px"}
                             placeholder="введите задачу"
                             {...register("text")}
+                            disabled={disabled}
                         />
                         {errors.text && (
                             <i>
@@ -140,12 +148,12 @@ export const AddTask = () => {
 
                         <StyledSubmit
                             type="submit"
-                            disabled={!isValid || Object.keys(errors).length > 0}
+                            disabled={!isValid || Object.keys(errors).length > 0 || disabled}
                         >
                             Добавить
                         </StyledSubmit>
 
-                        <ToastContainer />
+                        <ToastContainer/>
 
                     </StyledForm>
                 </div>

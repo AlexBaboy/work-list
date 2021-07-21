@@ -10,7 +10,7 @@ import {StyledButtonSwitch} from "./ui/StyledButtonSwitch";
 import {StyledNavWrapper} from "./ui/StyledNavWrapper";
 import {NavLink} from "react-router-dom";
 import {useHistory} from "react-router";
-import { confirmAlert } from 'react-confirm-alert';
+import {confirmAlert} from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import {useSelector} from "react-redux";
 import {getCurrentUrl} from "../store/selectors";
@@ -19,7 +19,7 @@ import {toast, ToastContainer} from "react-toastify";
 const NavWrapper = styled.div`
   display: flex;
   padding-top: 2rem;
-  justify-content: center;  
+  justify-content: center;
 `
 
 export const NavBar: React.FC = () => {
@@ -46,7 +46,7 @@ export const NavBar: React.FC = () => {
     let [linkToText, setLinkToText] = useState('Добавить задачу')
     let [title, setTitle] = useState('Список задач')
 
-    React.useEffect( () => {
+    React.useEffect(() => {
 
         setAdmin(localStorage.getItem('isAdmin') || null)
         setToken(localStorage.getItem('token') || null)
@@ -82,10 +82,10 @@ export const NavBar: React.FC = () => {
 
     const authorize = () => {
 
-        if(!isAdmin)
+        if (!isAdmin)
             history.push({
                 pathname: '/login',
-                state: { detail: isAdmin }
+                state: {detail: isAdmin}
             });
         else {
             confirmAlert({
@@ -107,9 +107,6 @@ export const NavBar: React.FC = () => {
 
     const logout = () => {
         localStorage.clear()
-        console.log('104 isAdmin', isAdmin)
-        console.log("105 token = " + token)
-
         setAdmin(null)
         setToken(null)
 
@@ -141,7 +138,7 @@ export const NavBar: React.FC = () => {
                             <NavLink to={linkToUrl}>{linkToText}</NavLink>}
                         </StyledButtonSwitch>
                         <span id='break'>|</span>
-                        <StyledButtonSwitch onClick={authorize}> {isAdmin ? 'Выйти' : 'Войти' }</StyledButtonSwitch>
+                        <StyledButtonSwitch onClick={authorize}> {isAdmin ? 'Выйти' : 'Войти'}</StyledButtonSwitch>
                     </StyledNavButtons>
                 </nav>
             </StyledNavWrapper>
@@ -158,7 +155,7 @@ export const NavBar: React.FC = () => {
                 </nav>
             </NavWrapper>
 
-            <ToastContainer />
+            <ToastContainer/>
 
         </Container>
     )

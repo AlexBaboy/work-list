@@ -130,7 +130,6 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
     };
 
     React.useEffect(() => {
-        console.log("props = ", props)
         dispatch(setCurrentUrl(`${props.match.url}`))
     },[])
 

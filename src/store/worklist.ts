@@ -11,7 +11,6 @@ export const setWorklistInitial = createAsyncThunk(
     "worklist/setWorkListInitial",
     async () => {
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL!}?developer=Alex`);
-        console.log(response?.data?.message?.tasks)
         return response?.data?.message;
     }
 );

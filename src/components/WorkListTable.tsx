@@ -75,9 +75,6 @@ export const WorkListTable = () => {
     const currentPage = useSelector(getCurrentPage)
     const history = useHistory();
 
-    console.log("worklist", worklist)
-    console.log("currentPage", currentPage)
-
     const titleValue = (type: string = 'asc') => {
         return 'сортировать по ' +  (type === 'asc' ? ' убыванию' : 'возрастанию')
     }

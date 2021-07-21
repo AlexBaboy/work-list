@@ -108,7 +108,6 @@ export const Login: React.FC = () => {
               type="text"
               placeholder="введите логин"
               {...register("username")}
-                onChange={(e)=> console.log(isValid)}
               disabled={disabled}
             />
             {errors.username  && (
@@ -125,7 +124,6 @@ export const Login: React.FC = () => {
                 type="password"
                 placeholder="введите пароль"
                 {...register("password")}
-                onChange={(e)=> console.log(isValid)}
                 disabled={disabled}
             />
             {errors.password && (
