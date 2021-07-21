@@ -1,13 +1,13 @@
 import React, {useState} from 'react'
 import {Box} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import styled from 'styled-components'
 import Grid from "@material-ui/core/Grid";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import {StyledNavButtons} from "./ui/StyledNavButtons";
 import {StyledButtonSwitch} from "./ui/StyledButtonSwitch";
 import {StyledNavWrapper} from "./ui/StyledNavWrapper";
+import {StyledTitle} from "./ui/StyledTitle";
 import {NavLink} from "react-router-dom";
 import {useHistory} from "react-router";
 import {confirmAlert} from 'react-confirm-alert';
@@ -15,12 +15,6 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import {useSelector} from "react-redux";
 import {getCurrentUrl} from "../store/selectors";
 import {toast, ToastContainer} from "react-toastify";
-
-const NavWrapper = styled.div`
-  display: flex;
-  padding-top: 2rem;
-  justify-content: center;
-`
 
 export const NavBar: React.FC = () => {
 
@@ -40,7 +34,6 @@ export const NavBar: React.FC = () => {
 
     const currentUrl = useSelector(getCurrentUrl)
     const [isAdmin, setAdmin] = useState(localStorage.getItem('isAdmin') || null)
-    const [token, setToken] = useState(localStorage.getItem('token') || null)
 
     let [linkToUrl, setLinkToUrl] = useState('/addTask')
     let [linkToText, setLinkToText] = useState('Добавить задачу')
@@ -49,7 +42,6 @@ export const NavBar: React.FC = () => {
     React.useEffect(() => {
 
         setAdmin(localStorage.getItem('isAdmin') || null)
-        setToken(localStorage.getItem('token') || null)
 
         const typeAction = currentUrl.split('/')[1];
 
@@ -108,7 +100,6 @@ export const NavBar: React.FC = () => {
     const logout = () => {
         localStorage.clear()
         setAdmin(null)
-        setToken(null)
 
         toast.info("Деавторизация прошла успешно!", {
             position: "top-center",
@@ -143,7 +134,7 @@ export const NavBar: React.FC = () => {
                 </nav>
             </StyledNavWrapper>
 
-            <NavWrapper>
+            <StyledTitle>
                 <nav>
                     <Grid item xs={12} className={classes.headContainer}>
                         <Box display="flex" justifyContent="space-between" gridGap="2rem">
@@ -153,7 +144,7 @@ export const NavBar: React.FC = () => {
                         </Box>
                     </Grid>
                 </nav>
-            </NavWrapper>
+            </StyledTitle>
 
             <ToastContainer/>
 

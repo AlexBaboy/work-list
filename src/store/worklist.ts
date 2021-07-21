@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import axios from "axios";
 import {IWorklistState} from "../interfaces/IWorklistState";
 import {Imessage} from "../interfaces/Imessage";
@@ -172,4 +172,4 @@ const workListSlice = createSlice({
 });
 
 export default workListSlice.reducer;
-export const { setSortUserNameType, setSortEmailType, setSortStatusType, setCurrentUrl } = workListSlice.actions;
+export const {setSortUserNameType, setSortEmailType, setSortStatusType, setCurrentUrl} = workListSlice.actions;

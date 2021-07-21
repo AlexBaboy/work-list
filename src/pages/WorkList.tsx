@@ -1,7 +1,7 @@
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { Pagination } from "../components/Pagination";
+import {Pagination} from "../components/Pagination";
 import Container from "@material-ui/core/Container";
 import {WorkListTable} from "../components/WorkListTable";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) =>
             width: '100%',
             height: '100%',
             zIndex: 3,
-            content: '12345',
+            content: '',
             textAlign: 'center',
             color: '#1a90ff',
             animationDuration: '550ms',
@@ -51,20 +51,19 @@ export const WorkList = () => {
     return (
 
         <Container className={classes.root}>
-        {isLoading &&
+            {isLoading &&
             <div className={styles.loaderWrapper}>
                 <CircularProgress className={classes.loader}
-                                            variant="determinate"
-                                            size={80}
-                                            thickness={4}
-                                            value={100}
+                                  variant="determinate"
+                                  size={80}
+                                  thickness={4}
+                                  value={100}
                 />
             </div>
-        }
+            }
 
-                <WorkListTable />
-                <Pagination />
+            <WorkListTable/>
+            <Pagination/>
         </Container>
-
     );
 };

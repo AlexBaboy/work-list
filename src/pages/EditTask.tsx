@@ -1,22 +1,18 @@
 import React, {Suspense, useState} from "react";
-
 import Container from "@material-ui/core/Container";
-import { StyledP } from "../components/ui/StyledP";
-import { useForm } from "react-hook-form";
-
-import { StyledForm } from "../components/ui/StyledForm";
-import { StyledSubmit } from "../components/ui/StyledSubmit";
-
-import { StyledTextarea } from "../components/ui/StyledTextarea";
-import { StyledCheckbox } from "../components/ui/StyledCheckbox";
+import {StyledP} from "../components/ui/StyledP";
+import {useForm} from "react-hook-form";
+import {StyledForm} from "../components/ui/StyledForm";
+import {StyledSubmit} from "../components/ui/StyledSubmit";
+import {StyledTextarea} from "../components/ui/StyledTextarea";
+import {StyledCheckbox} from "../components/ui/StyledCheckbox";
 import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import {yupResolver} from "@hookform/resolvers/yup";
 import {editTaskRequest, setCurrentUrl} from "../store/worklist";
-
 import {useAppDispatch} from "../store";
 import {RouteComponentProps, useHistory} from "react-router";
 import {useSelector} from "react-redux";
-import {getCurrentTaskInitialById, getLoadingStatus} from "../store/selectors";
+import {getCurrentTaskInitialById} from "../store/selectors";
 import {toast, ToastContainer} from "react-toastify";
 import {IEditTaskParams} from "../interfaces/IEditTaskParams";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
@@ -31,7 +27,7 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
         text: yup.string().required(errorText)
     });
 
-    const useStyles = makeStyles((theme) =>
+    const useStyles = makeStyles(() =>
         createStyles({
             statusWrap: {
                 margin: 0,
@@ -49,7 +45,7 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
     const {
         register,
         handleSubmit,
-        formState: { errors, isValid },
+        formState: {errors, isValid},
     } = useForm({
         mode: "onTouched",
         reValidateMode: "onSubmit",
@@ -64,7 +60,7 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
 
     const onSubmit = async (data: any) => {
 
-        if(!token) {
+        if (!token) {
 
             toast.error("Нет доступа к редактированию записи!", {
                 position: "top-center",
@@ -79,15 +75,15 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
         }
 
         // задача отредактирована админом и выполнена
-        if(currentTaskInitial?.text !==  data.text && data.status) {
+        if (currentTaskInitial?.text !== data.text && data.status) {
             data.status = 11
         }
         // задача не выполнена, отредактирована админом
-        else if(currentTaskInitial?.text !==  data.text && !data.status) {
+        else if (currentTaskInitial?.text !== data.text && !data.status) {
             data.status = 1
         }
         // задача выполнена
-        else if(currentTaskInitial?.text ===  data.text && data.status) {
+        else if (currentTaskInitial?.text === data.text && data.status) {
             data.status = 10
         }
         // задача не выполнена
@@ -103,10 +99,10 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
         try {
 
             const editedTaskParams = {} as IEditTaskParams;
-            editedTaskParams.id =  props.match.params.id
-            editedTaskParams.data =  form
+            editedTaskParams.id = props.match.params.id
+            editedTaskParams.data = form
 
-            const resultAction = await dispatch(editTaskRequest( editedTaskParams ))
+            await dispatch(editTaskRequest(editedTaskParams))
 
             setDisabled(true)
             toast.info("Изменения успешно сохранены!", {
@@ -119,9 +115,9 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
                 progress: undefined
             })
 
-            setTimeout(()=> {
+            setTimeout(() => {
                 history.push('/')
-            },3000)
+            }, 3000)
 
         } catch (rejectedValueOrSerializedError) {
             // handle error here
@@ -131,7 +127,7 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
 
     React.useEffect(() => {
         dispatch(setCurrentUrl(`${props.match.url}`))
-    },[])
+    }, [])
 
     const classes = useStyles();
 
@@ -182,7 +178,7 @@ export const EditTask: React.FC<RouteComponentProps<any>> = props => {
                             редактировать
                         </StyledSubmit>
 
-                        <ToastContainer />
+                        <ToastContainer/>
 
                     </StyledForm>
                 </div>

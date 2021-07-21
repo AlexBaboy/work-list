@@ -36,9 +36,6 @@ const useStyles = makeStyles((theme) =>
         table: {
             minWidth: 650,
         },
-        cellId: {
-            width: '10%'
-        },
         cellName: {
             width: '20%'
         },
@@ -49,9 +46,9 @@ const useStyles = makeStyles((theme) =>
             width: '15%'
         },
         cellText: {
-            width: '35%'
+            width: '45%'
         },
-        arrow : {
+        arrow: {
             cursor: 'pointer',
             width: '50px',
             height: '50px',
@@ -62,7 +59,7 @@ const useStyles = makeStyles((theme) =>
             gap: '2rem',
             alignItems: 'center'
         },
-        editRow : {
+        editRow: {
             cursor: 'pointer',
         }
     })
@@ -76,7 +73,7 @@ export const WorkListTable = () => {
     const history = useHistory();
 
     const titleValue = (type: string = 'asc') => {
-        return 'сортировать по ' +  (type === 'asc' ? ' убыванию' : 'возрастанию')
+        return 'сортировать по ' + (type === 'asc' ? 'убыванию' : 'возрастанию')
     }
 
     const sortUserNameType = useSelector(getSortUserNameType)
@@ -87,8 +84,8 @@ export const WorkListTable = () => {
 
     const dispatch = useDispatch();
 
-    const sortField = (name: string, type:string = 'asc') => {
-        switch(name) {
+    const sortField = (name: string, type: string = 'asc') => {
+        switch (name) {
             case 'username':
                 dispatch(setSortUserNameType(type))
                 break;
@@ -103,17 +100,17 @@ export const WorkListTable = () => {
         return false
     }
 
-    const changeParamsRequest = (name: string, type:string = 'asc') => {
-        return dispatch(changeRequest( getChangedUrlParams(name, type, currentPage) ))
+    const changeParamsRequest = (name: string, type: string = 'asc') => {
+        return dispatch(changeRequest(getChangedUrlParams(name, type, currentPage)))
     }
 
-    const editRecord = (id:number) => {
+    const editRecord = (id: number) => {
 
-        if(!isAdmin)    return false
+        if (!isAdmin) return false
 
         history.push({
             pathname: `/edit/${id}`,
-            state: { detail: isAdmin }
+            state: {detail: isAdmin}
         });
     }
 
@@ -122,33 +119,32 @@ export const WorkListTable = () => {
             <Table className={classes.table} aria-label="contacts table">
                 <TableHead className="table-head">
                     <TableRow>
-                        {/*<TableCell className={classes.cellId}><b>ID</b>
-                            {sortIdType === 'desc' ?
-                                <ArrowDropDownIcon titleAccess={titleValue(sortIdType)}  className={classes.arrow}  onClick={ () => sortField('id','asc')} />
-                                :
-                                <ArrowDropUpIcon titleAccess={titleValue(sortIdType)} className={classes.arrow} onClick={ () => sortField('id', 'desc')} />
-                            }
-                        </TableCell>*/}
                         <TableCell className={classes.cellName}><b>Имя пользователя</b>
                             {sortUserNameType === 'desc' ?
-                                <ArrowDropDownIcon titleAccess={titleValue(sortUserNameType)} className={classes.arrow}  onClick={ () => sortField('username','asc')} />
+                                <ArrowDropDownIcon titleAccess={titleValue(sortUserNameType)} className={classes.arrow}
+                                                   onClick={() => sortField('username', 'asc')}/>
                                 :
-                                <ArrowDropUpIcon titleAccess={titleValue(sortUserNameType)} className={classes.arrow}  onClick={ () => sortField('username', 'desc')} />
+                                <ArrowDropUpIcon titleAccess={titleValue(sortUserNameType)} className={classes.arrow}
+                                                 onClick={() => sortField('username', 'desc')}/>
                             }
                         </TableCell>
                         <TableCell className={classes.cellEmail}><b>Email</b>
                             {sortEmailType === 'desc' ?
-                                <ArrowDropDownIcon titleAccess={titleValue(sortEmailType)} className={classes.arrow}  onClick={ () => sortField('email','asc')} />
+                                <ArrowDropDownIcon titleAccess={titleValue(sortEmailType)} className={classes.arrow}
+                                                   onClick={() => sortField('email', 'asc')}/>
                                 :
-                                <ArrowDropUpIcon titleAccess={titleValue(sortEmailType)} className={classes.arrow}  onClick={ () => sortField('email', 'desc')} />
+                                <ArrowDropUpIcon titleAccess={titleValue(sortEmailType)} className={classes.arrow}
+                                                 onClick={() => sortField('email', 'desc')}/>
                             }
                         </TableCell>
                         <TableCell className={classes.cellText}><b>Текст задачи</b></TableCell>
                         <TableCell className={classes.cellStatus}><b>Статус</b>
                             {sortStatusType === 'desc' ?
-                                <ArrowDropDownIcon titleAccess={titleValue(sortStatusType)} className={classes.arrow}  onClick={ () => sortField('status','asc')} />
+                                <ArrowDropDownIcon titleAccess={titleValue(sortStatusType)} className={classes.arrow}
+                                                   onClick={() => sortField('status', 'asc')}/>
                                 :
-                                <ArrowDropUpIcon titleAccess={titleValue(sortStatusType)} className={classes.arrow}  onClick={ () => sortField('status', 'desc')} />
+                                <ArrowDropUpIcon titleAccess={titleValue(sortStatusType)} className={classes.arrow}
+                                                 onClick={() => sortField('status', 'desc')}/>
                             }
                         </TableCell>
                     </TableRow>
@@ -156,13 +152,10 @@ export const WorkListTable = () => {
                 <TableBody>
                     {worklist.map((todo) => (
                         <TableRow key={todo.id}
-                                  className={ isAdmin ? classes.editRow : ''}
+                                  className={isAdmin ? classes.editRow : ''}
                                   title={isAdmin ? 'редактировать' : ''}
-                                  onClick={()=> editRecord(todo.id!)}
+                                  onClick={() => editRecord(todo.id!)}
                         >
-                            {/*<TableCell >
-                                {todo.id}
-                            </TableCell>*/}
                             <TableCell component="th" scope="row">
                                 <div className={classes.userName}>
                                     <div>
@@ -183,7 +176,7 @@ export const WorkListTable = () => {
                                 {todo.text}
                             </TableCell>
                             <TableCell>
-                                { getStatusNameByCode(todo.status) }
+                                {getStatusNameByCode(todo.status)}
                             </TableCell>
                         </TableRow>
                     ))}
